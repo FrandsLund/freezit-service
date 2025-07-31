@@ -3,12 +3,13 @@ package com.frandslund.freezermanagement.domain.model;
 import com.frandslund.freezermanagement.domain.common.Entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class Shelf extends Entity {
 
-    private final UUID shelfId;
+    private final ShelfId shelfId;
     private final int shelfNumber;
     private final List<FreezerItem> freezerItems;
 
@@ -17,7 +18,7 @@ public class Shelf extends Entity {
     }
 
     protected Shelf(int shelfNumber, List<FreezerItem> freezerItems) {
-        this.shelfId = UUID.randomUUID();
+        this.shelfId = new ShelfId(UUID.randomUUID());
         this.shelfNumber = shelfNumber;
         this.freezerItems = freezerItems != null ? freezerItems : new ArrayList<>();
     }
@@ -31,4 +32,11 @@ public class Shelf extends Entity {
         return this;
     }
 
+    public ShelfId getShelfId() {
+        return shelfId;
+    }
+
+    public List<FreezerItem> getFreezerItems() {
+        return freezerItems;
+    }
 }
