@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.port.out.persistence;
 
-import com.frandslund.freezermanagement.domain.model.freezer.Freezer;
-import com.frandslund.freezermanagement.domain.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.Freezer;
+import com.frandslund.freezermanagement.model.freezer.FreezerId;
 
 import java.util.Optional;
 
