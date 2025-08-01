@@ -1,12 +1,9 @@
-package com.frandslund.freezermanagement.domain.port.in;
+package com.frandslund.freezermanagement.application.port.in;
 
 import com.frandslund.freezermanagement.domain.model.Freezer;
 import com.frandslund.freezermanagement.domain.model.FreezerId;
-import com.frandslund.freezermanagement.domain.model.FreezerItem;
-import com.frandslund.freezermanagement.domain.port.out.FreezerRepository;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public interface FreezerService {
 

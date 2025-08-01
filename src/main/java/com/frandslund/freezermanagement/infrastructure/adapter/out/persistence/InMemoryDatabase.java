@@ -1,8 +1,8 @@
-package com.frandslund.freezermanagement.infrastructure.adapter.persistence;
+package com.frandslund.freezermanagement.infrastructure.adapter.out.persistence;
 
 import com.frandslund.freezermanagement.domain.model.Freezer;
 import com.frandslund.freezermanagement.domain.model.FreezerId;
-import com.frandslund.freezermanagement.domain.port.out.FreezerRepository;
+import com.frandslund.freezermanagement.application.port.out.persistence.FreezerRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;

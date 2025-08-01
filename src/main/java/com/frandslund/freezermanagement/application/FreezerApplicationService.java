@@ -2,16 +2,13 @@ package com.frandslund.freezermanagement.application;
 
 import com.frandslund.freezermanagement.domain.model.Freezer;
 import com.frandslund.freezermanagement.domain.model.FreezerId;
-import com.frandslund.freezermanagement.domain.model.FreezerItem;
-import com.frandslund.freezermanagement.domain.model.ItemData;
-import com.frandslund.freezermanagement.domain.port.in.FreezerService;
-import com.frandslund.freezermanagement.domain.port.out.FreezerRepository;
+import com.frandslund.freezermanagement.application.port.in.FreezerService;
+import com.frandslund.freezermanagement.application.port.out.persistence.FreezerRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.security.InvalidParameterException;
 import java.time.Instant;
-import java.util.UUID;
 
 // TODO: Add transactional, når der skal publiseres events
 
