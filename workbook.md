@@ -1,10 +1,28 @@
 # Workbook for the work to be done
 
-## TODO
+## Hexagonal Architecture - Sources
+[Hexagonal Architecture – What Is It? Why Use It?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/)
+[Hexagonal Architecture with Java – Tutorial](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-java/)
 
 ## Technical debt
 
-### Separate maven modules for packages
+### Figure out where to place this dependency
 
-- Create separate maven modules for the three packages; application, domain, infrastructure
-- Each package should be a standalone submodule with src/main/java/package + separate test folder
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+
+### Find BOM for current quarkus version
+
+- Find the BOM for current quarkus version to ensure that all dependency versions are listed, or if you need to add a
+  version manually
+
+
+### Read through the following:
+
+
+#### Understand the different pom scopes
+
+#### How to import dependecies the correct way
+[Importing APIs or Implementations?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-quarkus/#:~:text=Importing%20APIs%20or%20Implementations%3F)

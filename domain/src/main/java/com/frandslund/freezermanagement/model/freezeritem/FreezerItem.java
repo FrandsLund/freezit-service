@@ -1,6 +1,6 @@
-package com.frandslund.freezermanagement.domain.model.freezeritem;
+package com.frandslund.freezermanagement.model.freezeritem;
 
-import com.frandslund.freezermanagement.domain.common.Entity;
+import com.frandslund.freezermanagement.common.Entity;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
-package com.frandslund.freezermanagement.application.port.in;
+package com.frandslund.freezermanagement.port.in;
 
-import com.frandslund.freezermanagement.domain.model.freezer.Freezer;
+import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.domain.model.freezer.FreezerId;
 
 import java.time.Instant;

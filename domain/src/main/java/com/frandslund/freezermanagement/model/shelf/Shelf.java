@@ -1,7 +1,7 @@
-package com.frandslund.freezermanagement.domain.model.shelf;
+package com.frandslund.freezermanagement.model.shelf;
 
-import com.frandslund.freezermanagement.domain.common.Entity;
-import com.frandslund.freezermanagement.domain.model.freezeritem.FreezerItem;
+import com.frandslund.freezermanagement.common.Entity;
+import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Shelf extends Entity {
     private final int shelfNumber;
     private final List<FreezerItem> freezerItems;
 
-    protected Shelf(int shelfNumber) {
+    public Shelf(int shelfNumber) {
         this(shelfNumber, new ArrayList<>());
     }
 

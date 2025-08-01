@@ -1,9 +1,9 @@
-package com.frandslund.freezermanagement.domain.model.freezer;
+package com.frandslund.freezermanagement.model.freezer;
 
-import com.frandslund.freezermanagement.domain.common.AggregateRoot;
-import com.frandslund.freezermanagement.domain.model.freezeritem.FreezerItem;
-import com.frandslund.freezermanagement.domain.model.freezeritem.ItemData;
-import com.frandslund.freezermanagement.domain.model.shelf.Shelf;
+import com.frandslund.freezermanagement.common.AggregateRoot;
+import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
+import com.frandslund.freezermanagement.model.freezeritem.ItemData;
+import com.frandslund.freezermanagement.model.shelf.Shelf;
 
 import java.time.Instant;
 import java.util.*;
@@ -13,31 +13,40 @@ import java.util.stream.Collectors;
 // TODO: Add validation
 public class Freezer extends AggregateRoot {
 
-    private final String name;
     private final FreezerId freezerId;
+    private final String name;
     private final Map<Integer, Shelf> shelves;
 
-    public Freezer(String name) {
-        this(name, new FreezerId(UUID.randomUUID()));
+    public Freezer(String name, int shelfQuantity) {
+        this(new FreezerId(UUID.randomUUID()), name, new ArrayList<>());
+
+        // TODO: Is it an issue that this is places after the constructor
+        if (shelfQuantity < 1) {
+            throw new IllegalArgumentException(
+                    ("'shelfQuantity must be greater than 0, current value: %s")
+                            .formatted(shelfQuantity));
+        }
+
+        for (int i = 0; i < shelfQuantity; i++) {
+            addShelf(i + 1);
+        }
     }
 
-    public Freezer(String name, FreezerId freezerId) {
-        this(name, freezerId, new ArrayList<>());
-    }
+//    private Freezer(FreezerId freezerId, String name, int shelfQuantity) {
+//        this(freezerId, name, new ArrayList<>());
+//    }
 
-    public Freezer(String name, FreezerId freezerId, List<Shelf> shelves) {
+    public Freezer(FreezerId freezerId, String name, List<Shelf> shelves) {
         this.name = name;
         this.freezerId = freezerId;
         this.shelves = shelves.stream().collect(Collectors.toMap(Shelf::getShelfNumber, Function.identity()));
     }
 
-    public Freezer addShelf(int shelfNumber) {
-        // TODO: Use putIfAbsent() for validation
+    private void addShelf(int shelfNumber) {
         shelves.put(shelfNumber, new Shelf(shelfNumber));
-        return this;
     }
 
-    public Freezer addFreezerItem(int shelfNumber, String name, int quantity, String description, Instant dateAdded) {
+    public Freezer addFreezerItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
         shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addFreezerItem(new FreezerItem(new ItemData(name, quantity, description, dateAdded))));
         return this;
     }

@@ -1,12 +1,12 @@
-package com.frandslund.freezermanagement.infrastructure.adapter.in.rest;
+package com.frandslund.freezermanagement.adapter.in.rest;
 
 
 import com.frandslund.freezermanagement.application.FreezerApplicationService;
 import com.frandslund.freezermanagement.domain.model.freezer.Freezer;
 import com.frandslund.freezermanagement.domain.model.freezer.FreezerId;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto.CreateFreezerResponseDto;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto.FreezerDto;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.mapper.FreezerMapper;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.CreateFreezerResponseDto;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerDto;
+import com.frandslund.freezermanagement.adapter.in.rest.mapper.FreezerMapper;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.infrastructure.adapter.out.persistence;
+package com.frandslund.freezermanagement.adapter.out.persistence;
 
 import com.frandslund.freezermanagement.domain.model.freezer.Freezer;
 import com.frandslund.freezermanagement.domain.model.freezer.FreezerId;

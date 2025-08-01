@@ -1,15 +1,20 @@
-package com.frandslund.freezermanagement.domain.model.freezer;
+package com.frandslund.freezermanagement.model.freezer;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public record FreezerId(UUID id) {
+/**
+ * Wrapper class to avoid primitive obsession
+ *
+ * @param freezerId
+ */
+public record FreezerId(UUID freezerId) {
 
     public FreezerId {
-        Objects.requireNonNull(id, "FreezerId value cannot be null");
+        Objects.requireNonNull(freezerId, "FreezerId value cannot be null");
     }
 
-    public FreezerId(String id) {
-        this(UUID.fromString(id));
-    }
+//    public FreezerId(String id) {
+//        this(UUID.fromString(id));
+//    }
 }

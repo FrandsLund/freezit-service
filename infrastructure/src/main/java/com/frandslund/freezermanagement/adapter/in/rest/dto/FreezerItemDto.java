@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto;
+package com.frandslund.freezermanagement.adapter.in.rest.dto;
 
 import java.time.Instant;
 import java.util.UUID;

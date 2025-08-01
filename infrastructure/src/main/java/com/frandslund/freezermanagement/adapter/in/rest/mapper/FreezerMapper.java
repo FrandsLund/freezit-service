@@ -1,12 +1,12 @@
-package com.frandslund.freezermanagement.infrastructure.adapter.in.rest.mapper;
+package com.frandslund.freezermanagement.adapter.in.rest.mapper;
 
+import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerItemDto;
 import com.frandslund.freezermanagement.domain.model.freezer.Freezer;
 import com.frandslund.freezermanagement.domain.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.domain.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.domain.model.shelf.Shelf;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto.FreezerItemDto;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto.FreezerDto;
-import com.frandslund.freezermanagement.infrastructure.adapter.in.rest.dto.ShelfDto;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerDto;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.ShelfDto;
 
 import java.util.stream.Collectors;
 
