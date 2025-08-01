@@ -31,6 +31,10 @@ There shouldn't be a separate resource folder for each module, unless they overw
 
 ### Understand the different pom scopes
 
-### How to import dependecies the correct way
+### How to import dependencies the correct way
 
 [Importing APIs or Implementations?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-quarkus/#:~:text=Importing%20APIs%20or%20Implementations%3F)
+
+### Check out happy coder github repo on Hexagonal Architecture for Quarkus and Java
+
+https://github.com/SvenWoltmann/hexagonal-architecture-java/tree/with-quarkus
