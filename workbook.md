@@ -5,6 +5,10 @@
 [Hexagonal Architecture – What Is It? Why Use It?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/)
 [Hexagonal Architecture with Java – Tutorial](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-java/)
 
+## Next up
+
+[Implementing adapters](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-java/#:~:text=GitHub%20repository.-,Implementing%20Adapters,-Our%20application%20is)
+
 ## TODO
 
 - Add test with mockito for Infrastrcuture layer
