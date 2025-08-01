@@ -26,13 +26,6 @@ public class FreezerApplicationService implements FreezerService {
     }
 
     @Override
-    public void addShelf(FreezerId freezerId, int shelfNumber) {
-        var freezer = getFreezer(freezerId);
-        freezer.addShelf(shelfNumber);
-        freezerRepository.save(freezer);
-    }
-
-    @Override
     public void addFreezerItem(FreezerId freezerId, int shelfNumber, String name, int quantity, String description, Instant dateAdded) {
         var freezer = getFreezer(freezerId);
         freezer.addFreezerItem(shelfNumber, name, quantity, description, dateAdded);

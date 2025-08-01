@@ -18,11 +18,13 @@
 - Find the BOM for current quarkus version to ensure that all dependency versions are listed, or if you need to add a
   version manually
 
+### Consider custom exceptions for post conditions
 
-### Read through the following:
+[NotEnoughItemsInStockException](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-java/#:~:text=in%20service%20classes.-,NotEnoughItemsInStockException,-The%20increaseQuantityBy(%E2%80%A6))
 
+## Read through the following:
 
-#### Understand the different pom scopes
+### Understand the different pom scopes
 
-#### How to import dependecies the correct way
+### How to import dependecies the correct way
 [Importing APIs or Implementations?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-quarkus/#:~:text=Importing%20APIs%20or%20Implementations%3F)

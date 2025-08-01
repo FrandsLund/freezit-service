@@ -1,6 +1,7 @@
 package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.AggregateRoot;
+import com.frandslund.freezermanagement.model.InventoryItem.InventoryItem;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
@@ -22,9 +23,7 @@ public class Freezer extends AggregateRoot {
 
         // TODO: Is it an issue that this is places after the constructor
         if (shelfQuantity < 1) {
-            throw new IllegalArgumentException(
-                    ("'shelfQuantity must be greater than 0, current value: %s")
-                            .formatted(shelfQuantity));
+            throw new IllegalArgumentException(("'shelfQuantity must be greater than 0, current value: %s").formatted(shelfQuantity));
         }
 
         for (int i = 0; i < shelfQuantity; i++) {
@@ -36,7 +35,7 @@ public class Freezer extends AggregateRoot {
 //        this(freezerId, name, new ArrayList<>());
 //    }
 
-    public Freezer(FreezerId freezerId, String name, List<Shelf> shelves) {
+    private Freezer(FreezerId freezerId, String name, List<Shelf> shelves) {
         this.name = name;
         this.freezerId = freezerId;
         this.shelves = shelves.stream().collect(Collectors.toMap(Shelf::getShelfNumber, Function.identity()));
@@ -46,8 +45,11 @@ public class Freezer extends AggregateRoot {
         shelves.put(shelfNumber, new Shelf(shelfNumber));
     }
 
-    public Freezer addFreezerItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
-        shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addFreezerItem(new FreezerItem(new ItemData(name, quantity, description, dateAdded))));
+    public Freezer addInventoryItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
+        FreezerItem freezerItem = new FreezerItem(new ItemData(name, description, dateAdded));
+        InventoryItem inventoryItem = new InventoryItem(freezerItem, quantity);
+
+        shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addInventoryItem(inventoryItem));
         return this;
     }
 
@@ -59,5 +61,7 @@ public class Freezer extends AggregateRoot {
         return shelves.values().stream().toList();
     }
 
-
+    public String getName() {
+        return name;
+    }
 }
