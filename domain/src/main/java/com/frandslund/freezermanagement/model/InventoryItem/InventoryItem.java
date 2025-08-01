@@ -13,7 +13,6 @@ import java.util.UUID;
 public class InventoryItem extends Entity {
 
     private final InventoryItemId inventoryItemId;
-
     private final FreezerItem freezerItem;
     private int quantity;
 

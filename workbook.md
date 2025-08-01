@@ -5,6 +5,13 @@
 [Hexagonal Architecture – What Is It? Why Use It?](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/)
 [Hexagonal Architecture with Java – Tutorial](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture-java/)
 
+## TODO
+
+- Add test with mockito for Infrastrcuture layer
+- Create in memory DB
+- Create MySQL DB
+- Create rest api
+
 ## Technical debt
 
 ### Fix multiple resources folders
