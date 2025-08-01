@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.InventoryItem;
+package com.frandslund.freezermanagement.model.inventoryItem;
 
 import java.util.Objects;
 import java.util.UUID;

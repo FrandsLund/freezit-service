@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.AggregateRoot;
-import com.frandslund.freezermanagement.model.InventoryItem.InventoryItem;
+import com.frandslund.freezermanagement.model.inventoryItem.InventoryItem;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;

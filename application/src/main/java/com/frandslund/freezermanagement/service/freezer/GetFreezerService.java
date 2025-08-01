@@ -12,9 +12,11 @@ import java.security.InvalidParameterException;
 @ApplicationScoped
 public class GetFreezerService implements GetFreezerUseCase {
 
-    // TODO: Private or not? Look into quarkus
-    @Inject
-    FreezerRepository freezerRepository;
+    private final FreezerRepository freezerRepository;
+
+    public GetFreezerService(FreezerRepository freezerRepository) {
+        this.freezerRepository = freezerRepository;
+    }
 
     @Override
     public Freezer getFreezer(FreezerId freezerId) {

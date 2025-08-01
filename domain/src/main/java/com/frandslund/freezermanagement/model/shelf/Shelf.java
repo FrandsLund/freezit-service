@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.model.shelf;
 
 import com.frandslund.freezermanagement.common.Entity;
-import com.frandslund.freezermanagement.model.InventoryItem.InventoryItem;
+import com.frandslund.freezermanagement.model.inventoryItem.InventoryItem;
 
 import java.util.ArrayList;
 import java.util.List;

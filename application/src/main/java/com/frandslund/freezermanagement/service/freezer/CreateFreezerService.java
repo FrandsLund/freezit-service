@@ -15,8 +15,11 @@ import java.time.Instant;
 @ApplicationScoped
 public class CreateFreezerService implements CreateFreezerUseCase {
 
-    @Inject
-    FreezerRepository freezerRepository;
+    private final FreezerRepository freezerRepository;
+
+    public CreateFreezerService(FreezerRepository freezerRepository) {
+        this.freezerRepository = freezerRepository;
+    }
 
     @Override
     public FreezerId createFreezer(String name, int shelfQuantity) {

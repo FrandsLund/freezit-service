@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.service.freezer;
+package com.frandslund.freezermanagement.service.inventoryitem;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
@@ -13,8 +13,11 @@ import java.time.Instant;
 @ApplicationScoped
 public class AddInventoryItemService implements AddInventoryItemUseCase {
 
-    @Inject
-    FreezerRepository freezerRepository;
+    private final FreezerRepository freezerRepository;
+
+    public AddInventoryItemService(FreezerRepository freezerRepository) {
+        this.freezerRepository = freezerRepository;
+    }
 
     @Override
     public void addInventoryItem(FreezerId freezerId, int shelfNumber, String name, int quantity, String description, Instant dateAdded) {

@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.InventoryItem;
+package com.frandslund.freezermanagement.model.inventoryItem;
 
 import com.frandslund.freezermanagement.common.Entity;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;

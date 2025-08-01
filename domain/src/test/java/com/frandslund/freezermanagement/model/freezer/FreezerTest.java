@@ -1,14 +1,8 @@
 package com.frandslund.freezermanagement.model.freezer;
 
-import com.frandslund.freezermanagement.model.InventoryItem.InventoryItem;
-import com.frandslund.freezermanagement.model.shelf.Shelf;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.time.temporal.TemporalAccessor;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
