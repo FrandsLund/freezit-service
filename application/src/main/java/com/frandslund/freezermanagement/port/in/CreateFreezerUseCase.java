@@ -1,12 +1,9 @@
 package com.frandslund.freezermanagement.port.in;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.model.freezer.FreezerId;
-
-import java.time.Instant;
 
 public interface CreateFreezerUseCase {
 
-    Freezer createFreezer(String name, int shelfQuantity);
+    Freezer createFreezer(int userId, String freezerName, int shelfQuantity);
 }
 

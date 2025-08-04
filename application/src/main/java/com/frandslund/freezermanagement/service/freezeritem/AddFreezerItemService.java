@@ -4,12 +4,10 @@ import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
-import jakarta.enterprise.context.ApplicationScoped;
 
 import java.security.InvalidParameterException;
 import java.time.Instant;
 
-@ApplicationScoped
 public class AddFreezerItemService implements AddFreezerItemUseCase {
 
     private final FreezerRepository freezerRepository;

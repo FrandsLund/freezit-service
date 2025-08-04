@@ -31,8 +31,8 @@ public class FreezerResource {
 
 
     @POST
-    public FreezerWebModel createFreezer(@QueryParam("freezerName") String freezerName, @QueryParam("shelfQuantity") int shelfQuantity) {
-        Freezer freezer = createFreezerUseCase.createFreezer(freezerName, shelfQuantity);
+    public FreezerWebModel createFreezer(@QueryParam("userId") int userId, @QueryParam("freezerName") String freezerName, @QueryParam("shelfQuantity") int shelfQuantity) {
+        Freezer freezer = createFreezerUseCase.createFreezer(userId, freezerName, shelfQuantity);
         return FreezerWebModel.fromDomainModel(freezer);
     }
 

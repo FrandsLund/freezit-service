@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+// TODO: Update test naming
 public class CreateFreezerServiceTest {
 
     private final FreezerRepository freezerRepository = mock(FreezerRepository.class);
@@ -19,11 +20,12 @@ public class CreateFreezerServiceTest {
     @Test
     void createFreezer_freezerCreated() {
         // Given
+        int userId = 5;
         String name = "TestFreezer";
         int shelfQuantity = 3;
 
         // When
-        Freezer freezer = createFreezerService.createFreezer(name, shelfQuantity);
+        Freezer freezer = createFreezerService.createFreezer(userId, name, shelfQuantity);
 
         // Then
         verify(freezerRepository).save(any());
@@ -31,6 +33,7 @@ public class CreateFreezerServiceTest {
         assertThat(freezer.getFreezerId().freezerId()).isInstanceOf(UUID.class);
         assertThat(freezer.getName()).isEqualTo(name);
         assertThat(freezer.getShelves()).hasSize(shelfQuantity);
+        assertThat(freezer.getUserId().userId()).isEqualTo(userId);
     }
 
 }

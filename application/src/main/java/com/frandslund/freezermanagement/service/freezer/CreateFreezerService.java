@@ -1,18 +1,12 @@
 package com.frandslund.freezermanagement.service.freezer;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
-import java.security.InvalidParameterException;
-import java.time.Instant;
 
 // TODO: Add transactional, når der skal publiseres events
 
-@ApplicationScoped
 public class CreateFreezerService implements CreateFreezerUseCase {
 
     private final FreezerRepository freezerRepository;
@@ -22,8 +16,8 @@ public class CreateFreezerService implements CreateFreezerUseCase {
     }
 
     @Override
-    public Freezer createFreezer(String name, int shelfQuantity) {
-        var freezer = new Freezer(name, shelfQuantity);
+    public Freezer createFreezer(int userId, String freezerName, int shelfQuantity) {
+        var freezer = new Freezer(new UserId(userId), freezerName, shelfQuantity);
         freezerRepository.save(freezer);
         return freezer;
     }

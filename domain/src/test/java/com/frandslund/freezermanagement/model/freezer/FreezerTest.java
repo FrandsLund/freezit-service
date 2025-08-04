@@ -11,11 +11,12 @@ public class FreezerTest {
     @Test
     void createNewFreezer_freezerInitializedCorrect() {
         // Given
+        int userId = 1;
         String name = "MyFantasticFreezer";
         int shelfQuantity = 4;
 
         // When
-        var freezer = new Freezer(name, shelfQuantity);
+        var freezer = new Freezer(new UserId(userId), name, shelfQuantity);
 
         // Then
         assertThat(freezer.getFreezerId()).isNotNull();

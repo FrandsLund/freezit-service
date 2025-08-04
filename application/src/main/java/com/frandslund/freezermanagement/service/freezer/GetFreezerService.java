@@ -4,12 +4,9 @@ import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.security.InvalidParameterException;
 
-@ApplicationScoped
 public class GetFreezerService implements GetFreezerUseCase {
 
     private final FreezerRepository freezerRepository;

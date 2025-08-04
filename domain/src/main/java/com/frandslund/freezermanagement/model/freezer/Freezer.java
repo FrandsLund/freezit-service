@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 public class Freezer extends AggregateRoot {
 
     private final FreezerId freezerId;
+    private final UserId userId;
     private final String name;
     private final Map<Integer, Shelf> shelves;
 
-    public Freezer(String name, int shelfQuantity) {
-        this(new FreezerId(UUID.randomUUID()), name, new ArrayList<>());
+    public Freezer(UserId userId, String name, int shelfQuantity) {
+        this(new FreezerId(UUID.randomUUID()), userId, name, new ArrayList<>());
 
         // TODO: Is it an issue that this is places after the constructor
         if (shelfQuantity < 1) {
@@ -37,7 +38,8 @@ public class Freezer extends AggregateRoot {
 //        this(freezerId, name, new ArrayList<>());
 //    }
 
-    private Freezer(FreezerId freezerId, String name, List<Shelf> shelves) {
+    private Freezer(FreezerId freezerId, UserId userId, String name, List<Shelf> shelves) {
+        this.userId = userId;
         this.name = name;
         this.freezerId = freezerId;
         this.shelves = shelves.stream().collect(Collectors.toMap(Shelf::getShelfNumber, Function.identity()));
@@ -63,5 +65,9 @@ public class Freezer extends AggregateRoot {
 
     public String getName() {
         return name;
+    }
+
+    public UserId getUserId() {
+        return userId;
     }
 }
