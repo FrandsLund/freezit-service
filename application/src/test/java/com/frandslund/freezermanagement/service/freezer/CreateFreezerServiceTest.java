@@ -1,10 +1,8 @@
 package com.frandslund.freezermanagement.service.freezer;
 
-import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
-import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 
 import java.util.UUID;
 
@@ -22,15 +20,17 @@ public class CreateFreezerServiceTest {
     void createFreezer_freezerCreated() {
         // Given
         String name = "TestFreezer";
-        int quantity = 3;
+        int shelfQuantity = 3;
 
         // When
-        FreezerId id = createFreezerService.createFreezer(name, quantity);
+        Freezer freezer = createFreezerService.createFreezer(name, shelfQuantity);
 
         // Then
         verify(freezerRepository).save(any());
-        assertThat(id).isNotNull();
-        assertThat(id.freezerId()).isInstanceOf(UUID.class);
+        assertThat(freezer).isNotNull();
+        assertThat(freezer.getFreezerId().freezerId()).isInstanceOf(UUID.class);
+        assertThat(freezer.getName()).isEqualTo(name);
+        assertThat(freezer.getShelves()).hasSize(shelfQuantity);
     }
 
 }
