@@ -1,13 +1,15 @@
 package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.AggregateRoot;
-import com.frandslund.freezermanagement.model.inventoryItem.InventoryItem;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,19 +47,17 @@ public class Freezer extends AggregateRoot {
         shelves.put(shelfNumber, new Shelf(shelfNumber));
     }
 
-    public Freezer addInventoryItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
-        FreezerItem freezerItem = new FreezerItem(new ItemData(name, description, dateAdded));
-        InventoryItem inventoryItem = new InventoryItem(freezerItem, quantity);
-
-        shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addInventoryItem(inventoryItem));
-        return this;
+    public void addFreezerItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
+        ItemData itemData = new ItemData(name, description, dateAdded);
+        FreezerItem freezerItem = new FreezerItem(itemData, quantity);
+        shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addFreezerItem(freezerItem));
     }
 
     public FreezerId getFreezerId() {
         return this.freezerId;
     }
 
-    public List<Shelf> getAllShelves() {
+    public List<Shelf> getShelves() {
         return shelves.values().stream().toList();
     }
 

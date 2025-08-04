@@ -14,7 +14,7 @@ public record FreezerId(UUID freezerId) {
         Objects.requireNonNull(freezerId, "FreezerId value cannot be null");
     }
 
-//    public FreezerId(String id) {
-//        this(UUID.fromString(id));
-//    }
+    public FreezerId(String id) {
+        this(UUID.fromString(id));
+    }
 }

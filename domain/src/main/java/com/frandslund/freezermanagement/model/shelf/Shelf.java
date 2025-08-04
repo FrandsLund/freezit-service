@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.model.shelf;
 
 import com.frandslund.freezermanagement.common.Entity;
-import com.frandslund.freezermanagement.model.inventoryItem.InventoryItem;
+import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,29 +11,33 @@ public class Shelf extends Entity {
 
     private final ShelfId shelfId;
     private final int shelfNumber;
-    private final List<InventoryItem> inventoryItems;
+    private final List<FreezerItem> freezerItems;
 
     public Shelf(int shelfNumber) {
         this(shelfNumber, new ArrayList<>());
     }
 
-    private Shelf(int shelfNumber, List<InventoryItem> inventoryItems) {
+    private Shelf(int shelfNumber, List<FreezerItem> freezerItems) {
         this.shelfId = new ShelfId(UUID.randomUUID());
         this.shelfNumber = shelfNumber;
-        this.inventoryItems = inventoryItems != null ? inventoryItems : new ArrayList<>();
+        this.freezerItems = freezerItems != null ? freezerItems : new ArrayList<>();
     }
 
     public int getShelfNumber() {
         return shelfNumber;
     }
 
-    public Shelf addInventoryItem(InventoryItem inventoryItem) {
-        inventoryItems.add(inventoryItem);
+    public Shelf addFreezerItem(FreezerItem freezerItem) {
+        freezerItems.add(freezerItem);
         return this;
     }
 
-    public List<InventoryItem> getInventoryItems() {
+    public List<FreezerItem> getFreezerItems() {
         // Ensure no modification of list outside class
-        return List.copyOf(inventoryItems);
+        return List.copyOf(freezerItems);
+    }
+
+    public ShelfId getShelfId() {
+        return shelfId;
     }
 }

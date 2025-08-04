@@ -19,13 +19,13 @@ public class FreezerTest {
 
         // Then
         assertThat(freezer.getFreezerId()).isNotNull();
-        assertThat(freezer.getAllShelves()).hasSize(4);
+        assertThat(freezer.getShelves()).hasSize(4);
         assertThat(freezer.getName()).isEqualTo(name);
     }
 
     // TODO: Consider making this test better asserting on the return value
     @Test
-    void addInventoryItem_validItemReturned() {
+    void addFreezerItem_validFreezerItemReturned() {
         // Given
         var freezer = FreezerTestFactory.createTestFreezerWithThreeShelves();
 
@@ -36,11 +36,11 @@ public class FreezerTest {
         Instant dateAdded = Instant.ofEpochSecond(1L);
 
         // When
-        freezer.addInventoryItem(shelfNumber, quantity, name, description, dateAdded);
+        freezer.addFreezerItem(shelfNumber, quantity, name, description, dateAdded);
 
         // Then
-        var allInventoryItems = freezer.getAllShelves().stream().flatMap(shelf -> shelf.getInventoryItems().stream()).toList();
-        assertThat(allInventoryItems).hasSize(1);
+        var alFreezerItems = freezer.getShelves().stream().flatMap(shelf -> shelf.getFreezerItems().stream()).toList();
+        assertThat(alFreezerItems).hasSize(1);
     }
 
     // more tests

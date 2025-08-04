@@ -22,9 +22,9 @@ public class CreateFreezerService implements CreateFreezerUseCase {
     }
 
     @Override
-    public FreezerId createFreezer(String name, int shelfQuantity) {
+    public Freezer createFreezer(String name, int shelfQuantity) {
         var freezer = new Freezer(name, shelfQuantity);
         freezerRepository.save(freezer);
-        return freezer.getFreezerId();
+        return freezer;
     }
 }

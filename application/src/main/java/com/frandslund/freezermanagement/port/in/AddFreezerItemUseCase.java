@@ -5,8 +5,8 @@ import com.frandslund.freezermanagement.model.freezer.FreezerId;
 
 import java.time.Instant;
 
-public interface CreateFreezerUseCase {
+public interface AddFreezerItemUseCase {
 
-    Freezer createFreezer(String name, int shelfQuantity);
+    Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description, Instant dateAdded);
+
 }
-

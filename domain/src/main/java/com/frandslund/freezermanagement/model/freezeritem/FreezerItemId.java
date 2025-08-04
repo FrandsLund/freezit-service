@@ -4,12 +4,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record FreezerItemId(UUID freezerItemId) {
-
     public FreezerItemId {
         Objects.requireNonNull(freezerItemId, "freezerItemId cannot be null");
     }
 
-//    public FreezerItemId(String value) {
-//        this(UUID.fromString(value));
-//    }
 }
