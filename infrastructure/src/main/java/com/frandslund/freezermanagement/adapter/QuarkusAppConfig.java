@@ -18,7 +18,6 @@ class QuarkusAppConfig {
     @Inject
     Instance<FreezerRepository> freezerRepository;
 
-
     @Produces
     @ApplicationScoped
     GetFreezerUseCase getFreezerUseCase() {
