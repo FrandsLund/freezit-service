@@ -1,6 +1,5 @@
 package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 
-import com.frandslund.freezermanagement.adapter.in.rest.FreezerResource;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
@@ -19,7 +18,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     private final JpaPanacheFreezerRepository panacheRepository;
 
-    private static final Logger LOG = LoggerFactory.getLogger(FreezerResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JpaFreezerRepository.class);
 
     public JpaFreezerRepository(JpaPanacheFreezerRepository panacheRepository) {
         this.panacheRepository = panacheRepository;
@@ -27,6 +26,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     @Override
     public Optional<Freezer> findById(FreezerId freezerId) {
+        LOG.debug("findById() called: {}", freezerId.toString());
         FreezerEntity freezerEntity = panacheRepository.findById(freezerId.freezerId());
         if (freezerEntity != null) {
             return Optional.of(FreezerMapper.toFreezer(freezerEntity));
@@ -37,7 +37,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     @Override
     public void save(Freezer freezer) {
-        LOG.info("Save freezer called: {}", freezer.toString());
+        LOG.debug("save() freezer called: {}", freezer.toString());
         panacheRepository.getEntityManager().merge(FreezerMapper.toFreezerEntity(freezer));
     }
 }

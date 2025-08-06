@@ -1,6 +1,8 @@
-package e2e;
+package com.frandslund.freezermanagement.e2e;
 
+import com.frandslund.freezermanagement.TestProfileWithJpa;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -10,13 +12,14 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @QuarkusTest
+@TestProfile(TestProfileWithJpa.class)
 public class FreezerTest {
 
     @Test
     void givenNoFreezerExists_createFreezer_thenFreezerIsCreatedWithCorrectValues() {
         // Given
         int userId = 123;
-        String freezerName = "Min nye fryser";
+        String freezerName = "My new freezer";
         int shelfQuantity = 5;
 
         String requestBody = "{"

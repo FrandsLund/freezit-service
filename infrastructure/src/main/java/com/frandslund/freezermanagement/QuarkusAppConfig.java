@@ -14,6 +14,7 @@ import jakarta.inject.Inject;
 
 class QuarkusAppConfig {
 
+    // TODO: Try and remove this instance annotation
     @Inject
     Instance<FreezerRepository> freezerRepository;
 

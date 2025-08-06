@@ -1,10 +1,8 @@
-package com.frandslund.freezermanagement.adapter.in.rest;
+package com.frandslund.freezermanagement;
 
 import io.quarkus.test.junit.QuarkusTestProfile;
 
 import java.util.Map;
-
-// TODO: Consider removing
 
 public class TestProfileWithJpa implements QuarkusTestProfile {
 

@@ -5,10 +5,7 @@ import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,15 +30,7 @@ public class Freezer extends AggregateRoot {
         }
     }
 
-//    private Freezer(FreezerId freezerId, String name, int shelfQuantity) {
-//        this(freezerId, name, new ArrayList<>());
-//    }
-
-    public Freezer(UUID freezerId, int userId, String name, List<Shelf> shelves) {
-        this(new FreezerId(freezerId), new UserId(userId), name, shelves);
-    }
-
-    private Freezer(FreezerId freezerId, UserId userId, String name, List<Shelf> shelves) {
+    public Freezer(FreezerId freezerId, UserId userId, String name, List<Shelf> shelves) {
         this.userId = userId;
         this.name = name;
         this.freezerId = freezerId;
@@ -72,6 +61,19 @@ public class Freezer extends AggregateRoot {
 
     public UserId getUserId() {
         return userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Freezer freezer = (Freezer) o;
+        return Objects.equals(freezerId, freezer.freezerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(freezerId);
     }
 
     @Override

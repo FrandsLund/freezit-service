@@ -1,6 +1,8 @@
 package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
+import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItemId;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
@@ -24,7 +26,7 @@ final class FreezerMapper {
 
     static Freezer toFreezer(FreezerEntity freezerEntity) {
         var shelves = freezerEntity.getShelfEntities().stream().map(FreezerMapper::toShelf).toList();
-        return new Freezer(freezerEntity.getFreezerId(), freezerEntity.getUserId(), freezerEntity.getName(), shelves);
+        return new Freezer(new FreezerId(freezerEntity.getFreezerId()), new UserId(freezerEntity.getUserId()), freezerEntity.getName(), shelves);
     }
 
     private static Shelf toShelf(ShelfEntity shelfEntity) {
