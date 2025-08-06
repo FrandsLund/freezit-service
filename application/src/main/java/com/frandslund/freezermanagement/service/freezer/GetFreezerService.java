@@ -5,7 +5,7 @@ import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
 
-import java.security.InvalidParameterException;
+import java.util.NoSuchElementException;
 
 public class GetFreezerService implements GetFreezerUseCase {
 
@@ -16,7 +16,7 @@ public class GetFreezerService implements GetFreezerUseCase {
     }
 
     @Override
-    public Freezer getFreezer(FreezerId freezerId) {
-        return freezerRepository.findById(freezerId).orElseThrow(() -> new InvalidParameterException("Freezer with ID " + freezerId.freezerId().toString() + " not found."));
+    public Freezer getFreezer(FreezerId freezerId) throws NoSuchElementException {
+        return freezerRepository.findById(freezerId).orElseThrow(() -> new NoSuchElementException("Freezer with ID " + freezerId.freezerId().toString() + " not found."));
     }
 }

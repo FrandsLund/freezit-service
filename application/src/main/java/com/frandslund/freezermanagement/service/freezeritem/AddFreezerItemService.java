@@ -16,7 +16,7 @@ public class AddFreezerItemService implements AddFreezerItemUseCase {
     }
 
     @Override
-    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) {
+    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) throws NoSuchElementException {
         var freezer = freezerRepository.findById(freezerId).orElseThrow(() -> new NoSuchElementException("Freezer with ID %s not found.".formatted(freezerId)));
         freezer.addFreezerItem(shelfNumber, quantity, name, description);
         freezerRepository.save(freezer);

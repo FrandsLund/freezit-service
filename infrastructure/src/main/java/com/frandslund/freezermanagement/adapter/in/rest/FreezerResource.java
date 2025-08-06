@@ -38,8 +38,14 @@ public class FreezerResource {
     @GET
     @Path("/{freezerId}")
     public FreezerWebModel getFreezer(@PathParam("freezerId") String freezerId) {
-        Freezer freezer = getFreezerUseCase.getFreezer(new FreezerId(UUID.fromString(freezerId)));
-        return FreezerWebModel.fromDomainModel(freezer);
+        try {
+            Freezer freezer = getFreezerUseCase.getFreezer(new FreezerId(UUID.fromString(freezerId)));
+            return FreezerWebModel.fromDomainModel(freezer);
+        } catch (NoSuchElementException e) {
+            throw clientErrorException(
+                    Response.Status.NOT_FOUND, "The requested freezer does not exist");
+        }
+
     }
 
     @POST
@@ -62,7 +68,7 @@ public class FreezerResource {
                     .build();
         } catch (NoSuchElementException e) {
             throw clientErrorException(
-                    Response.Status.BAD_REQUEST, "The requested freezer does not exist");
+                    Response.Status.NOT_FOUND, "The requested freezer does not exist");
         }
     }
 }
