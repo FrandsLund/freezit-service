@@ -28,12 +28,11 @@ public class CreateFreezerServiceTest {
         Freezer freezer = createFreezerService.createFreezer(userId, name, shelfQuantity);
 
         // Then
-        verify(freezerRepository).save(any());
+        verify(freezerRepository).save(any(Freezer.class));
         assertThat(freezer).isNotNull();
         assertThat(freezer.getFreezerId().freezerId()).isInstanceOf(UUID.class);
         assertThat(freezer.getName()).isEqualTo(name);
         assertThat(freezer.getShelves()).hasSize(shelfQuantity);
         assertThat(freezer.getUserId().userId()).isEqualTo(userId);
     }
-
 }

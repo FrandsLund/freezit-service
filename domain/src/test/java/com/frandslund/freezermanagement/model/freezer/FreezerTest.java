@@ -37,8 +37,8 @@ public class FreezerTest {
         freezer.addFreezerItem(shelfNumber, quantity, name, description);
 
         // Then
-        var alFreezerItems = freezer.getShelves().stream().flatMap(shelf -> shelf.getFreezerItems().stream()).toList();
-        assertThat(alFreezerItems).hasSize(1);
+        var allFreezerItems = freezer.getShelves().stream().flatMap(shelf -> shelf.getFreezerItems().stream()).toList();
+        assertThat(allFreezerItems).hasSize(1);
     }
 
     // more tests
