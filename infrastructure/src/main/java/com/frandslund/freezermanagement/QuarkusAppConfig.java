@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.adapter;
+package com.frandslund.freezermanagement;
 
 import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
@@ -12,7 +12,6 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
-// TODO: Should be moved one file out
 class QuarkusAppConfig {
 
     @Inject
