@@ -13,6 +13,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.net.URI;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -34,12 +35,6 @@ public class FreezerResource {
         this.addFreezerItemUseCase = addFreezerItemUseCase;
     }
 
-    @POST
-    public FreezerWebModel createFreezer(CreateFreezerRequest createFreezerRequest) {
-        Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
-        return FreezerWebModel.fromDomainModel(freezer);
-    }
-
     @GET
     @Path("/{freezerId}")
     public FreezerWebModel getFreezer(@PathParam("freezerId") String freezerId) {
@@ -48,11 +43,23 @@ public class FreezerResource {
     }
 
     @POST
+    public Response createFreezer(CreateFreezerRequest createFreezerRequest) {
+        Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
+        FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
+        return Response.created(URI.create("/freezers/" + freezer.getFreezerId().freezerId()))
+                .entity(freezerWebModel)
+                .build();
+    }
+
+    @POST
     @Path("/{freezerId}/{shelfNumber}")
-    public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, AddFreezerItemRequest addFreezerItemRequest) {
+    public Response addFreezerItem(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, AddFreezerItemRequest addFreezerItemRequest) {
         try {
             Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, addFreezerItemRequest.itemName(), addFreezerItemRequest.quantity(), addFreezerItemRequest.description());
-            return FreezerWebModel.fromDomainModel(freezer);
+            FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
+            return Response.created(URI.create("/freezers/" + freezer.getFreezerId().freezerId()))
+                    .entity(freezerWebModel)
+                    .build();
         } catch (NoSuchElementException e) {
             throw clientErrorException(
                     Response.Status.BAD_REQUEST, "The requested freezer does not exist");
