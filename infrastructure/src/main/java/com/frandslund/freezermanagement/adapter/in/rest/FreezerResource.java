@@ -13,11 +13,11 @@ import jakarta.ws.rs.core.MediaType;
 import java.time.Instant;
 import java.util.UUID;
 
-@Path("/freezers")
-@Produces(MediaType.APPLICATION_JSON)
 /**
  * @apiNote Primary REST adapter for interacting with the application. Could be one resource per use case.
  */
+@Path("/freezers")
+@Produces(MediaType.APPLICATION_JSON)
 public class FreezerResource {
     private final CreateFreezerUseCase createFreezerUseCase;
     private final GetFreezerUseCase getFreezerUseCase;
@@ -28,7 +28,6 @@ public class FreezerResource {
         this.getFreezerUseCase = getFreezerUseCase;
         this.addFreezerItemUseCase = addFreezerItemUseCase;
     }
-
 
     @POST
     public FreezerWebModel createFreezer(@QueryParam("userId") int userId, @QueryParam("freezerName") String freezerName, @QueryParam("shelfQuantity") int shelfQuantity) {
@@ -43,6 +42,7 @@ public class FreezerResource {
         return FreezerWebModel.fromDomainModel(freezer);
     }
 
+    // TODO: Add class: AddFreezerItemRequest
     @POST
     @Path("/{freezerId}")
     public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @QueryParam("shelfNumber") int shelfNumber, @QueryParam("itemName") String itemName, @QueryParam("quantity") int quantity, @QueryParam("description") String description, @QueryParam("dateAdded") Instant dateAdded) {
