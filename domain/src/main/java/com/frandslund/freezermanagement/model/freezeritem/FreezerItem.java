@@ -28,30 +28,10 @@ public class FreezerItem extends Entity {
         quantity += value;
     }
 
-    private FreezerItem(FreezerItemId freezerItemId, ItemData itemData, int quantity) {
-        validateQuantity(quantity);
-
-        this.freezerItemId = freezerItemId;
-        this.itemData = itemData;
-        this.quantity = quantity;
-    }
-
     public void decreaseQuantityBy(int value) {
         validatePositiveInput(value);
         quantity -= value;
         validateQuantity(quantity);
-    }
-
-    private void validatePositiveInput(int value) {
-        if (value < 1) {
-            throw new IllegalArgumentException("'value' must be positive");
-        }
-    }
-
-    private void validateQuantity(int quantity) {
-        if (quantity < 0) {
-            throw new IllegalArgumentException("'quantity' must not be negative");
-        }
     }
 
     public FreezerItemId getFreezerItemId() {
@@ -64,6 +44,26 @@ public class FreezerItem extends Entity {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    private FreezerItem(FreezerItemId freezerItemId, ItemData itemData, int quantity) {
+        validateQuantity(quantity);
+
+        this.freezerItemId = freezerItemId;
+        this.itemData = itemData;
+        this.quantity = quantity;
+    }
+
+    private void validatePositiveInput(int value) {
+        if (value < 1) {
+            throw new IllegalArgumentException("'value' must be positive");
+        }
+    }
+
+    private void validateQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("'quantity' must not be negative");
+        }
     }
 }
 

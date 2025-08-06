@@ -5,7 +5,6 @@ import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +48,8 @@ public class Freezer extends AggregateRoot {
         shelves.put(shelfNumber, new Shelf(shelfNumber));
     }
 
-    public void addFreezerItem(int shelfNumber, int quantity, String name, String description, Instant dateAdded) {
-        ItemData itemData = new ItemData(name, description, dateAdded);
+    public void addFreezerItem(int shelfNumber, int quantity, String name, String description) {
+        ItemData itemData = new ItemData(name, description);
         FreezerItem freezerItem = new FreezerItem(itemData, quantity);
         shelves.computeIfPresent(shelfNumber, (key, shelf) -> shelf.addFreezerItem(freezerItem));
     }

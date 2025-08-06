@@ -7,6 +7,6 @@ import java.time.Instant;
 
 public interface AddFreezerItemUseCase {
 
-    Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description, Instant dateAdded);
+    Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description);
 
 }

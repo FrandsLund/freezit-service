@@ -17,9 +17,9 @@ public class AddFreezerItemService implements AddFreezerItemUseCase {
     }
 
     @Override
-    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description, Instant dateAdded) {
+    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) {
         var freezer = freezerRepository.findById(freezerId).orElseThrow(() -> new InvalidParameterException("Freezer with ID " + freezerId.freezerId().toString() + " not found."));
-        freezer.addFreezerItem(shelfNumber, quantity, name, description, dateAdded);
+        freezer.addFreezerItem(shelfNumber, quantity, name, description);
         freezerRepository.save(freezer);
         return freezer;
     }

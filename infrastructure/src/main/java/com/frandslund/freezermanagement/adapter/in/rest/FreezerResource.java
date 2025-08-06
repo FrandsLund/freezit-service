@@ -45,9 +45,9 @@ public class FreezerResource {
     // TODO: Add class: AddFreezerItemRequest
     @POST
     @Path("/{freezerId}")
-    public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @QueryParam("shelfNumber") int shelfNumber, @QueryParam("itemName") String itemName, @QueryParam("quantity") int quantity, @QueryParam("description") String description, @QueryParam("dateAdded") Instant dateAdded) {
+    public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @QueryParam("shelfNumber") int shelfNumber, @QueryParam("itemName") String itemName, @QueryParam("quantity") int quantity, @QueryParam("description") String description) {
         //TODO: Add try/catch
-        Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, itemName, quantity, description, dateAdded);
+        Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, itemName, quantity, description);
         return FreezerWebModel.fromDomainModel(freezer);
     }
 }

@@ -2,8 +2,6 @@ package com.frandslund.freezermanagement.model.freezer;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.Instant;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FreezerTest {
@@ -34,10 +32,9 @@ public class FreezerTest {
         int quantity = 11;
         String name = "Chicken";
         String description = "";
-        Instant dateAdded = Instant.ofEpochSecond(1L);
 
         // When
-        freezer.addFreezerItem(shelfNumber, quantity, name, description, dateAdded);
+        freezer.addFreezerItem(shelfNumber, quantity, name, description);
 
         // Then
         var alFreezerItems = freezer.getShelves().stream().flatMap(shelf -> shelf.getFreezerItems().stream()).toList();
