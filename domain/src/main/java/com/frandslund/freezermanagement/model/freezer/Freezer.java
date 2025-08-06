@@ -37,6 +37,10 @@ public class Freezer extends AggregateRoot {
 //        this(freezerId, name, new ArrayList<>());
 //    }
 
+    public Freezer(UUID freezerId, int userId, String name, List<Shelf> shelves) {
+        this(new FreezerId(freezerId), new UserId(userId), name, shelves);
+    }
+
     private Freezer(FreezerId freezerId, UserId userId, String name, List<Shelf> shelves) {
         this.userId = userId;
         this.name = name;
@@ -68,5 +72,15 @@ public class Freezer extends AggregateRoot {
 
     public UserId getUserId() {
         return userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Freezer{" +
+                "freezerId=" + freezerId +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", shelves=" + shelves +
+                '}';
     }
 }

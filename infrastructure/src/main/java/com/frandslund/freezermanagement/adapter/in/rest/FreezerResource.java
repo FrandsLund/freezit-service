@@ -12,6 +12,8 @@ import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.NoSuchElementException;
@@ -28,6 +30,9 @@ public class FreezerResource {
     private final CreateFreezerUseCase createFreezerUseCase;
     private final GetFreezerUseCase getFreezerUseCase;
     private final AddFreezerItemUseCase addFreezerItemUseCase;
+
+    private static final Logger LOG = LoggerFactory.getLogger(FreezerResource.class);
+
 
     public FreezerResource(CreateFreezerUseCase createFreezerUseCase, GetFreezerUseCase getFreezerUseCase, AddFreezerItemUseCase addFreezerItemUseCase) {
         this.createFreezerUseCase = createFreezerUseCase;
@@ -50,6 +55,7 @@ public class FreezerResource {
 
     @POST
     public Response createFreezer(CreateFreezerRequest createFreezerRequest) {
+        LOG.info("Create freezer requested");
         Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
         FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
         return Response.created(URI.create("/freezers/" + freezer.getFreezerId().freezerId()))

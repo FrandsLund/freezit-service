@@ -17,10 +17,10 @@ public class Shelf extends Entity {
         this(shelfNumber, new ArrayList<>());
     }
 
-    private Shelf(int shelfNumber, List<FreezerItem> freezerItems) {
+    public Shelf(int shelfNumber, List<FreezerItem> freezerItems) {
         this.shelfId = new ShelfId(UUID.randomUUID());
         this.shelfNumber = shelfNumber;
-        this.freezerItems = freezerItems != null ? freezerItems : new ArrayList<>();
+        this.freezerItems = freezerItems != null ? new ArrayList<>(freezerItems) : new ArrayList<>();
     }
 
     public int getShelfNumber() {

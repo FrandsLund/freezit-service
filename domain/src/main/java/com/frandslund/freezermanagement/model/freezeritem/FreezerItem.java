@@ -46,7 +46,7 @@ public class FreezerItem extends Entity {
         return quantity;
     }
 
-    private FreezerItem(FreezerItemId freezerItemId, ItemData itemData, int quantity) {
+    public FreezerItem(FreezerItemId freezerItemId, ItemData itemData, int quantity) {
         validateQuantity(quantity);
 
         this.freezerItemId = freezerItemId;
