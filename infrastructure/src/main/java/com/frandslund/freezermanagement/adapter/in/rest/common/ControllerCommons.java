@@ -3,7 +3,7 @@ package com.frandslund.freezermanagement.adapter.in.rest.common;
 import jakarta.ws.rs.ClientErrorException;
 import jakarta.ws.rs.core.Response;
 
-public class ControllerCommons {
+public final class ControllerCommons {
 
     private ControllerCommons() {
     }

@@ -1,6 +1,8 @@
 package com.frandslund.freezermanagement.adapter.in.rest;
 
 
+import com.frandslund.freezermanagement.adapter.in.rest.dto.AddFreezerItemRequest;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.CreateFreezerRequest;
 import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerWebModel;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
@@ -9,9 +11,12 @@ import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-import java.time.Instant;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.frandslund.freezermanagement.adapter.in.rest.common.ControllerCommons.clientErrorException;
 
 /**
  * @apiNote Primary REST adapter for interacting with the application. Could be one resource per use case.
@@ -30,8 +35,8 @@ public class FreezerResource {
     }
 
     @POST
-    public FreezerWebModel createFreezer(@QueryParam("userId") int userId, @QueryParam("freezerName") String freezerName, @QueryParam("shelfQuantity") int shelfQuantity) {
-        Freezer freezer = createFreezerUseCase.createFreezer(userId, freezerName, shelfQuantity);
+    public FreezerWebModel createFreezer(CreateFreezerRequest createFreezerRequest) {
+        Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
         return FreezerWebModel.fromDomainModel(freezer);
     }
 
@@ -42,13 +47,16 @@ public class FreezerResource {
         return FreezerWebModel.fromDomainModel(freezer);
     }
 
-    // TODO: Add class: AddFreezerItemRequest
     @POST
-    @Path("/{freezerId}")
-    public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @QueryParam("shelfNumber") int shelfNumber, @QueryParam("itemName") String itemName, @QueryParam("quantity") int quantity, @QueryParam("description") String description) {
-        //TODO: Add try/catch
-        Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, itemName, quantity, description);
-        return FreezerWebModel.fromDomainModel(freezer);
+    @Path("/{freezerId}/{shelfNumber}")
+    public FreezerWebModel addFreezerItem(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, AddFreezerItemRequest addFreezerItemRequest) {
+        try {
+            Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, addFreezerItemRequest.itemName(), addFreezerItemRequest.quantity(), addFreezerItemRequest.description());
+            return FreezerWebModel.fromDomainModel(freezer);
+        } catch (NoSuchElementException e) {
+            throw clientErrorException(
+                    Response.Status.BAD_REQUEST, "The requested freezer does not exist");
+        }
     }
 }
 
