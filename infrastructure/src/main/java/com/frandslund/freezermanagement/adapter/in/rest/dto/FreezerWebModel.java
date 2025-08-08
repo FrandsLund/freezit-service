@@ -1,11 +1,15 @@
 package com.frandslund.freezermanagement.adapter.in.rest.dto;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 import java.util.UUID;
 
-public record FreezerWebModel(UUID freezerId, String freezerName, int userId, List<ShelfWebModel> shelves) {
+@Schema(name = "FreezerWebModel", description = "Web model for a freezer")
+public record FreezerWebModel(@Schema(examples = {"123e4567-e89b-12d3-a456-426614174000"}) UUID freezerId,
+                              @Schema(examples = {"Garage Freezer"}) String freezerName,
+                              @Schema(examples = {"123"}) int userId, List<ShelfWebModel> shelves) {
 
     /**
      * Static factory method
@@ -15,4 +19,3 @@ public record FreezerWebModel(UUID freezerId, String freezerName, int userId, Li
         return new FreezerWebModel(freezer.getFreezerId().freezerId(), freezer.getName(), freezer.getUserId().userId(), shelfWebModels);
     }
 }
-

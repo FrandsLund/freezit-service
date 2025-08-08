@@ -12,6 +12,9 @@ import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +45,19 @@ public class FreezerResource {
 
     @GET
     @Path("/{freezerId}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Get freezer by freezerId",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = FreezerWebModel.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Freezer does not exist for freezerId",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public FreezerWebModel getFreezer(@PathParam("freezerId") String freezerId) {
         try {
             Freezer freezer = getFreezerUseCase.getFreezer(new FreezerId(UUID.fromString(freezerId)));
@@ -53,6 +69,14 @@ public class FreezerResource {
     }
 
     @POST
+    @APIResponse(
+            responseCode = "201",
+            description = "Freezer created",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = FreezerWebModel.class)
+            )
+    )
     public Response createFreezer(CreateFreezerRequest createFreezerRequest) {
         LOG.info("Create freezer requested");
         Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
@@ -64,6 +88,19 @@ public class FreezerResource {
 
     @POST
     @Path("/{freezerId}/{shelfNumber}")
+    @APIResponse(
+            responseCode = "201",
+            description = "Freezer item created",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = FreezerWebModel.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Freezer does not exist for freezerId",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
     public Response addFreezerItem(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, AddFreezerItemRequest addFreezerItemRequest) {
         try {
             Freezer freezer = addFreezerItemUseCase.addFreezerItemUseCase(new FreezerId(freezerId), shelfNumber, addFreezerItemRequest.itemName(), addFreezerItemRequest.quantity(), addFreezerItemRequest.description());
