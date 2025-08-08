@@ -1,5 +1,6 @@
 package com.frandslund.freezermanagement;
 
+import com.frandslund.freezermanagement.adapter.out.event.FreezerEventPublisher;
 import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
@@ -18,6 +19,9 @@ class QuarkusAppConfig {
     @Inject
     Instance<FreezerRepository> freezerRepository;
 
+    @Inject
+    FreezerEventPublisher freezerEventPublisher;
+
     @Produces
     @ApplicationScoped
     GetFreezerUseCase getFreezerUseCase() {
@@ -27,7 +31,7 @@ class QuarkusAppConfig {
     @Produces
     @ApplicationScoped
     CreateFreezerUseCase createFreezerUseCase() {
-        return new CreateFreezerService(freezerRepository.get());
+        return new CreateFreezerService(freezerRepository.get(), freezerEventPublisher);
     }
 
     @Produces

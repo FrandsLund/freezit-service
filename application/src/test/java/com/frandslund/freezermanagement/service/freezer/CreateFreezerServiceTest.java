@@ -1,6 +1,8 @@
 package com.frandslund.freezermanagement.service.freezer;
 
+import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
+import com.frandslund.freezermanagement.port.out.event.DomainEventPublisher;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +17,8 @@ import static org.mockito.Mockito.verify;
 public class CreateFreezerServiceTest {
 
     private final FreezerRepository freezerRepository = mock(FreezerRepository.class);
-    private final CreateFreezerService createFreezerService = new CreateFreezerService(freezerRepository);
+    private final DomainEventPublisher domainEventPublisher = mock(DomainEventPublisher.class);
+    private final CreateFreezerService createFreezerService = new CreateFreezerService(freezerRepository, domainEventPublisher);
 
     @Test
     void createFreezer_freezerCreated() {
@@ -29,6 +32,7 @@ public class CreateFreezerServiceTest {
 
         // Then
         verify(freezerRepository).save(any(Freezer.class));
+        verify(domainEventPublisher).publish(any(DomainEvent.class));
         assertThat(freezer).isNotNull();
         assertThat(freezer.getFreezerId().freezerId()).isInstanceOf(UUID.class);
         assertThat(freezer.getName()).isEqualTo(name);
