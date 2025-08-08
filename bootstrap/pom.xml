@@ -18,6 +18,7 @@
             <artifactId>infrastructure</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- External -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
