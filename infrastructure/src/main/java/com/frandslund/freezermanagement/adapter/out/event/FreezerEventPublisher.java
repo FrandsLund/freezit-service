@@ -1,6 +1,5 @@
 package com.frandslund.freezermanagement.adapter.out.event;
 
-import com.frandslund.freezermanagement.adapter.in.rest.FreezerResource;
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.port.out.event.DomainEventPublisher;
 import jakarta.enterprise.context.ApplicationScoped;
