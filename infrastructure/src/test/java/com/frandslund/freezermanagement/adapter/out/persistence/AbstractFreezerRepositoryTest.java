@@ -39,5 +39,4 @@ public abstract class AbstractFreezerRepositoryTest {
             assertThat(f.getShelves()).hasSize(freezer.getShelves().size());
         });
     }
-
 }

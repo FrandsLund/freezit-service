@@ -5,6 +5,8 @@ import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Optional;
@@ -14,7 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class InMemoryFreezerRepository implements FreezerRepository {
 
+    private static final Logger LOG = LoggerFactory.getLogger(InMemoryFreezerRepository.class);
     private final Map<FreezerId, Freezer> freezers = new ConcurrentHashMap<>();
+
+    public InMemoryFreezerRepository() {
+        LOG.info("Freezer repository initialized");
+    }
 
     @Override
     public void save(Freezer freezer) {
@@ -26,6 +33,3 @@ public class InMemoryFreezerRepository implements FreezerRepository {
         return Optional.ofNullable(freezers.get(freezerId));
     }
 }
-
-
-

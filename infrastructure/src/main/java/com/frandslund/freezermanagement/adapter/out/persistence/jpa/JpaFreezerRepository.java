@@ -22,6 +22,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     public JpaFreezerRepository(JpaPanacheFreezerRepository panacheRepository) {
         this.panacheRepository = panacheRepository;
+        LOG.info("Freezer repository initialized");
     }
 
     @Override
