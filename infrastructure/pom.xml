@@ -13,14 +13,20 @@
     <artifactId>infrastructure</artifactId>
 
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.frandslund.freezermanagement</groupId>
             <artifactId>application</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- External -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-flyway</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
