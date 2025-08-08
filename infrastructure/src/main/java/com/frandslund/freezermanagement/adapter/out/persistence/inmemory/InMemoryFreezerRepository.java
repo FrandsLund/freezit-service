@@ -2,6 +2,7 @@ package com.frandslund.freezermanagement.adapter.out.persistence.inmemory;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,5 +32,11 @@ public class InMemoryFreezerRepository implements FreezerRepository {
     @Override
     public Optional<Freezer> findById(FreezerId freezerId) {
         return Optional.ofNullable(freezers.get(freezerId));
+    }
+
+    @Override
+    public Optional<Freezer> findByUserIdAndFreezerName(UserId userId, String FreezerName) {
+        LOG.error("Unimplemented method: findUserIdAndFreezerName()");
+        return Optional.empty();
     }
 }

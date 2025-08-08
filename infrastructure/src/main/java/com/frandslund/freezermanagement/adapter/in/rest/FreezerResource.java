@@ -6,6 +6,8 @@ import com.frandslund.freezermanagement.adapter.in.rest.dto.CreateFreezerRequest
 import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerWebModel;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.UserId;
+import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
 import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
@@ -68,6 +70,31 @@ public class FreezerResource {
         }
     }
 
+    @GET
+    @Path("/{userId}/{freezerName}")
+    @APIResponse(
+            responseCode = "200",
+            description = "Get freezer by userId and freezerName",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = FreezerWebModel.class)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Freezer does not exist for freezerId",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
+    public FreezerWebModel getFreezer(@PathParam("userId") int userId, @PathParam("freezerName") String freezerName) {
+        try {
+            Freezer freezer = getFreezerUseCase.getFreezer(new UserId(userId), freezerName);
+            return FreezerWebModel.fromDomainModel(freezer);
+        } catch (NoSuchElementException e) {
+            throw clientErrorException(
+                    Response.Status.NOT_FOUND, "The requested freezer does not exist");
+        }
+    }
+
     @POST
     @APIResponse(
             responseCode = "201",
@@ -79,11 +106,18 @@ public class FreezerResource {
     )
     public Response createFreezer(CreateFreezerRequest createFreezerRequest) {
         LOG.info("Create freezer requested");
-        Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
-        FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
-        return Response.created(URI.create("/freezers/" + freezer.getFreezerId().freezerId()))
-                .entity(freezerWebModel)
-                .build();
+
+        try {
+            Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
+            FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
+            return Response.created(URI.create("/freezers/" + freezer.getFreezerId().freezerId()))
+                    .entity(freezerWebModel)
+                    .build();
+        } catch (DuplicateFreezerNameException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+        }
     }
 
     @POST

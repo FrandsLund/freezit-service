@@ -2,14 +2,20 @@ package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.UserId;
+import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
 import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.PersistenceException;
 import jakarta.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+
+// TODO: Find ud af, hvorfor denne ikke bare implementerer PanacheRepositoryBase
 
 @LookupIfProperty(name = "persistence", stringValue = "jpa")
 @Transactional
@@ -37,8 +43,24 @@ public class JpaFreezerRepository implements FreezerRepository {
     }
 
     @Override
+    public Optional<Freezer> findByUserIdAndFreezerName(UserId userId, String freezerName) {
+        return panacheRepository.find("userId = ?1 and name = ?2", userId.userId(), freezerName).firstResultOptional().map(FreezerMapper::toFreezer);
+    }
+
+    @Override
     public void save(Freezer freezer) {
         LOG.debug("save() freezer called: {}", freezer);
-        panacheRepository.getEntityManager().merge(FreezerMapper.toFreezerEntity(freezer));
+        try {
+            panacheRepository.getEntityManager().merge(FreezerMapper.toFreezerEntity(freezer));
+        } catch (RuntimeException e) {
+            // TODO: Log not printed
+            LOG.info("User tried to create duplicate freezer name");
+            if (e.getCause() instanceof ConstraintViolationException) {
+                throw new DuplicateFreezerNameException(
+                        "A freezer with this name already exists for the user."
+                );
+            }
+            throw e;
+        }
     }
 }

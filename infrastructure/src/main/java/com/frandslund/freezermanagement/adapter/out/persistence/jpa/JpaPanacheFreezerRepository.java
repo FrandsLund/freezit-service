@@ -7,4 +7,7 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class JpaPanacheFreezerRepository implements PanacheRepositoryBase<FreezerEntity, UUID> {
+
+
+
 }
