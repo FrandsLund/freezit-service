@@ -37,7 +37,7 @@ class QuarkusAppConfig {
     @Produces
     @ApplicationScoped
     AddFreezerItemUseCase addFreezerItemUseCase() {
-        return new AddFreezerItemService(freezerRepository.get());
+        return new AddFreezerItemService(freezerRepository.get(), freezerEventPublisher);
     }
 
 
