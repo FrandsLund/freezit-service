@@ -26,7 +26,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     @Override
     public Optional<Freezer> findById(FreezerId freezerId) {
-        LOG.debug("findById() called: {}", freezerId.toString());
+        LOG.debug("findById() called: {}", freezerId);
         FreezerEntity freezerEntity = panacheRepository.findById(freezerId.freezerId());
         if (freezerEntity != null) {
             return Optional.of(FreezerMapper.toFreezer(freezerEntity));
@@ -37,7 +37,7 @@ public class JpaFreezerRepository implements FreezerRepository {
 
     @Override
     public void save(Freezer freezer) {
-        LOG.debug("save() freezer called: {}", freezer.toString());
+        LOG.debug("save() freezer called: {}", freezer);
         panacheRepository.getEntityManager().merge(FreezerMapper.toFreezerEntity(freezer));
     }
 }

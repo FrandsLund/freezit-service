@@ -4,8 +4,6 @@ import com.frandslund.freezermanagement.common.Entity;
 
 import java.util.UUID;
 
-// TODO: Consider renaming
-
 /**
  * The model in this class is called a “Rich Domain Model” – in contrast to an “Anemic Domain Model,” where the model classes contain only fields, getters, and setters, and the business logic is implemented in service classes.
  */
@@ -64,6 +62,15 @@ public class FreezerItem extends Entity {
         if (quantity < 0) {
             throw new IllegalArgumentException("'quantity' must not be negative");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "FreezerItem{" +
+                "freezerItemId=" + freezerItemId +
+                ", itemData=" + itemData +
+                ", quantity=" + quantity +
+                '}';
     }
 }
 

@@ -40,4 +40,13 @@ public class Shelf extends Entity {
     public ShelfId getShelfId() {
         return shelfId;
     }
+
+    @Override
+    public String toString() {
+        return "Shelf{" +
+                "shelfId=" + shelfId +
+                ", shelfNumber=" + shelfNumber +
+                ", freezerItems=" + freezerItems +
+                '}';
+    }
 }

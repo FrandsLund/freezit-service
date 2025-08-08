@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class FreezerEventPublisher implements DomainEventPublisher {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FreezerResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FreezerEventPublisher.class);
 
     @Override
     public void publish(DomainEvent event) {
