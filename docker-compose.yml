@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:17
     healthcheck:
-      test: pg_isready -U myuser -d Freezer
+      test: pg_isready -U testuser -d Freezer
       interval: 5s
       timeout: 3s
       retries: 3

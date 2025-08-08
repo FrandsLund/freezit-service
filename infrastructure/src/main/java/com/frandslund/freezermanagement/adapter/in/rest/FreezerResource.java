@@ -50,7 +50,6 @@ public class FreezerResource {
             throw clientErrorException(
                     Response.Status.NOT_FOUND, "The requested freezer does not exist");
         }
-
     }
 
     @POST
