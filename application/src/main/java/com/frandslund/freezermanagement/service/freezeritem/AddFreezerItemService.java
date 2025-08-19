@@ -2,9 +2,9 @@ package com.frandslund.freezermanagement.service.freezeritem;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
-import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
-import com.frandslund.freezermanagement.port.out.event.DomainEventPublisher;
-import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
+import com.frandslund.freezermanagement.port.in.freezer.AddFreezerItemUseCase;
+import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisher;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.NoSuchElementException;

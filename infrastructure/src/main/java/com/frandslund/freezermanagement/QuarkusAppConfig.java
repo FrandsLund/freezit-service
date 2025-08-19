@@ -1,10 +1,10 @@
 package com.frandslund.freezermanagement;
 
 import com.frandslund.freezermanagement.adapter.out.event.FreezerEventPublisher;
-import com.frandslund.freezermanagement.port.in.AddFreezerItemUseCase;
-import com.frandslund.freezermanagement.port.in.CreateFreezerUseCase;
-import com.frandslund.freezermanagement.port.in.GetFreezerUseCase;
-import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
+import com.frandslund.freezermanagement.port.in.freezer.AddFreezerItemUseCase;
+import com.frandslund.freezermanagement.port.in.freezer.CreateFreezerUseCase;
+import com.frandslund.freezermanagement.port.in.freezer.GetFreezerUseCase;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
 import com.frandslund.freezermanagement.service.freezer.CreateFreezerService;
 import com.frandslund.freezermanagement.service.freezer.GetFreezerService;
 import com.frandslund.freezermanagement.service.freezeritem.AddFreezerItemService;

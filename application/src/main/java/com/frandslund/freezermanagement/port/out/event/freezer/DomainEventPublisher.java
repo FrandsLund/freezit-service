@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.port.out.event;
+package com.frandslund.freezermanagement.port.out.event.freezer;
 
 import com.frandslund.freezermanagement.common.DomainEvent;
 

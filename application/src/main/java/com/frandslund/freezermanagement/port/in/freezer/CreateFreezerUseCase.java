@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.port.in;
+package com.frandslund.freezermanagement.port.in.freezer;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 

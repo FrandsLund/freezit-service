@@ -2,7 +2,7 @@ package com.frandslund.freezermanagement.adapter.out.persistence;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;

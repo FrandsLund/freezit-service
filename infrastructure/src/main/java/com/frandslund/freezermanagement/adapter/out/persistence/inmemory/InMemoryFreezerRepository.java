@@ -3,7 +3,7 @@ package com.frandslund.freezermanagement.adapter.out.persistence.inmemory;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.slf4j.Logger;

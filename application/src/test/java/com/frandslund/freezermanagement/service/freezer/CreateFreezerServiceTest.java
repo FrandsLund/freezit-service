@@ -2,8 +2,8 @@ package com.frandslund.freezermanagement.service.freezer;
 
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.port.out.event.DomainEventPublisher;
-import com.frandslund.freezermanagement.port.out.persistence.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisher;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

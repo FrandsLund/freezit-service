@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.adapter.out.event;
 
 import com.frandslund.freezermanagement.common.DomainEvent;
-import com.frandslund.freezermanagement.port.out.event.DomainEventPublisher;
+import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisher;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
