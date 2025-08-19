@@ -4,7 +4,7 @@ import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -19,13 +19,13 @@ import java.util.Optional;
 @LookupIfProperty(name = "persistence", stringValue = "jpa")
 @Transactional
 @ApplicationScoped
-public class JpaFreezerRepository implements FreezerRepository {
+public class JpaFreezerRepositoryAdapter implements FreezerRepositoryPort {
 
     private final JpaPanacheFreezerRepository panacheRepository;
 
-    private static final Logger LOG = LoggerFactory.getLogger(JpaFreezerRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JpaFreezerRepositoryAdapter.class);
 
-    public JpaFreezerRepository(JpaPanacheFreezerRepository panacheRepository) {
+    public JpaFreezerRepositoryAdapter(JpaPanacheFreezerRepository panacheRepository) {
         this.panacheRepository = panacheRepository;
         LOG.info("Freezer repository initialized");
     }

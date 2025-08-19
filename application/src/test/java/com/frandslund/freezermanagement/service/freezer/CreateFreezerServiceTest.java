@@ -2,8 +2,8 @@ package com.frandslund.freezermanagement.service.freezer;
 
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisher;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisherPort;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -15,9 +15,9 @@ import static org.mockito.Mockito.verify;
 
 public class CreateFreezerServiceTest {
 
-    private final FreezerRepository freezerRepository = mock(FreezerRepository.class);
-    private final DomainEventPublisher domainEventPublisher = mock(DomainEventPublisher.class);
-    private final CreateFreezerService createFreezerService = new CreateFreezerService(freezerRepository, domainEventPublisher);
+    private final FreezerRepositoryPort freezerRepositoryPort = mock(FreezerRepositoryPort.class);
+    private final DomainEventPublisherPort domainEventPublisherPort = mock(DomainEventPublisherPort.class);
+    private final CreateFreezerService createFreezerService = new CreateFreezerService(freezerRepositoryPort, domainEventPublisherPort);
 
     @Test
     void shouldCreateFreezer_whenCreateFreezerIsRequestedWithValidInput() {
@@ -30,8 +30,8 @@ public class CreateFreezerServiceTest {
         Freezer freezer = createFreezerService.createFreezer(userId, name, shelfQuantity);
 
         // Then
-        verify(freezerRepository).save(any(Freezer.class));
-        verify(domainEventPublisher).publish(any(DomainEvent.class));
+        verify(freezerRepositoryPort).save(any(Freezer.class));
+        verify(domainEventPublisherPort).publish(any(DomainEvent.class));
         assertThat(freezer).isNotNull();
         assertThat(freezer.getFreezerId().freezerId()).isInstanceOf(UUID.class);
         assertThat(freezer.getName()).isEqualTo(name);

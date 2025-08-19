@@ -2,7 +2,7 @@ package com.frandslund.freezermanagement.adapter.out.persistence;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public abstract class AbstractFreezerRepositoryTest {
 
     @Inject
-    Instance<FreezerRepository> freezerRepositoryInstance;
+    Instance<FreezerRepositoryPort> freezerRepositoryInstance;
 
-    private FreezerRepository freezerRepository;
+    private FreezerRepositoryPort freezerRepository;
 
     @BeforeEach
     void initRepository() {

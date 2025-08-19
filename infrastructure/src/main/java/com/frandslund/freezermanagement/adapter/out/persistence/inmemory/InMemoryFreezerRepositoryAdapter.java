@@ -3,7 +3,7 @@ package com.frandslund.freezermanagement.adapter.out.persistence.inmemory;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepository;
+import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.slf4j.Logger;
@@ -15,12 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @LookupIfProperty(name = "persistence", stringValue = "inmemory", lookupIfMissing = true)
 @ApplicationScoped
-public class InMemoryFreezerRepository implements FreezerRepository {
+public class InMemoryFreezerRepositoryAdapter implements FreezerRepositoryPort {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InMemoryFreezerRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InMemoryFreezerRepositoryAdapter.class);
     private final Map<FreezerId, Freezer> freezers = new ConcurrentHashMap<>();
 
-    public InMemoryFreezerRepository() {
+    public InMemoryFreezerRepositoryAdapter() {
         LOG.info("Freezer repository initialized");
     }
 

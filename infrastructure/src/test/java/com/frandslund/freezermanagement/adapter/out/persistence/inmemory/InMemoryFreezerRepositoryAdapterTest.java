@@ -4,5 +4,5 @@ import com.frandslund.freezermanagement.adapter.out.persistence.AbstractFreezerR
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class InMemoryFreezerRepositoryTest extends AbstractFreezerRepositoryTest {
+public class InMemoryFreezerRepositoryAdapterTest extends AbstractFreezerRepositoryTest {
 }
