@@ -6,6 +6,7 @@ import com.frandslund.freezermanagement.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.event.FreezerItemAddedEvent;
 import com.frandslund.freezermanagement.model.exception.ShelfDoesNotExistException;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
+import com.frandslund.freezermanagement.model.freezeritem.FreezerItemId;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
 
@@ -63,6 +64,26 @@ public class Freezer extends AggregateRoot {
         }
     }
 
+    public void increaseFreezerItemQuantityBy(FreezerItemId itemId, int value) {
+        getFreezerItems()
+                .stream()
+                .filter(item -> item
+                        .getFreezerItemId()
+                        .equals(itemId))
+                .findFirst()
+                .ifPresent(item -> item.increaseQuantityBy(value));
+    }
+
+    public void decreaseFreezerItemQuantityBy(FreezerItemId itemId, int value) {
+        getFreezerItems()
+                .stream()
+                .filter(item -> item
+                        .getFreezerItemId()
+                        .equals(itemId))
+                .findFirst()
+                .ifPresent(item -> item.decreaseQuantityBy(value));
+    }
+
     public FreezerId getFreezerId() {
         return this.freezerId;
     }
@@ -107,5 +128,15 @@ public class Freezer extends AggregateRoot {
                 ", name='" + name + '\'' +
                 ", shelves=" + shelves +
                 '}';
+    }
+
+    private List<FreezerItem> getFreezerItems() {
+        return this
+                .getShelves()
+                .stream()
+                .flatMap(shelf -> shelf
+                        .getFreezerItems()
+                        .stream())
+                .toList();
     }
 }

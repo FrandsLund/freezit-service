@@ -54,10 +54,17 @@ public class FreezerTest {
     void shouldThrowException_whenFreezerIsCreated_givenInvalidShelfQuantity(int shelfQuantity) {
         // When / then
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> {
-                    new Freezer(new UserId(1), "MyFantasticFreezer", shelfQuantity);
-                })
+                .isThrownBy(() -> new Freezer(new UserId(1), "MyFantasticFreezer", shelfQuantity))
                 .withMessage("'shelfQuantity' must be greater than 0, current value: %s".formatted(shelfQuantity));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-1", "0"})
+    void shouldThrowException_whenFreezerIsCreated_givenInvalidUserId(int userId) {
+        // When / then
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Freezer(new UserId(userId), "MyFantasticFreezer", 1))
+                .withMessage("'userId' must be a positive integer, current value: %s".formatted(userId));
     }
 
     @Test
@@ -167,6 +174,84 @@ public class FreezerTest {
                     freezer.addFreezerItem(shelfNumber, quantity, name, description);
                 })
                 .withMessage("Shelf with id=%d not found".formatted(shelfNumber));
+    }
+
+    @Test
+    void shouldIncreaseFreezerItemQuantity_whenIncreaseQuantityIsCalled_givenFreezerItemExists() {
+        // Given
+        int quantity = 11;
+        var freezer = FreezerTestFactory.createTestFreezerWithOneShelfAndOneFreezerItem(quantity);
+        List<FreezerItem> freezerItems = getFreezerItems(freezer);
+        FreezerItem freezerItem = freezerItems.get(0);
+        int increaseBy = 1;
+
+
+        // When
+        freezer.increaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), increaseBy);
+
+        // Then
+        FreezerItem updatedFreezerItem = getFreezerItems(freezer).get(0);
+        assertThat(updatedFreezerItem.getQuantity()).isEqualTo(quantity + increaseBy);
+    }
+
+    @Test
+    void shouldThrowException_whenIncreaseQuantityIsCalled_givenNegativeInput() {
+        // Given
+        var freezer = FreezerTestFactory.createTestFreezerWithOneShelfAndOneFreezerItem();
+        List<FreezerItem> freezerItems = getFreezerItems(freezer);
+        FreezerItem freezerItem = freezerItems.get(0);
+        int increaseBy = -1;
+
+        // When / then
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> freezer.increaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), increaseBy))
+                .withMessage("'value' must be positive, current value: %d".formatted(increaseBy));
+    }
+
+    @Test
+    void shouldDecreaseFreezerItemQuantity_whenDecreaseQuantityIsCalled_givenFreezerItemExists() {
+        // Given
+        int quantity = 11;
+        var freezer = FreezerTestFactory.createTestFreezerWithOneShelfAndOneFreezerItem(quantity);
+        List<FreezerItem> freezerItems = getFreezerItems(freezer);
+        FreezerItem freezerItem = freezerItems.get(0);
+        int decreaseBy = 1;
+
+        // When
+        freezer.decreaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), decreaseBy);
+
+        // Then
+        FreezerItem updatedFreezerItem = getFreezerItems(freezer).get(0);
+        assertThat(updatedFreezerItem.getQuantity()).isEqualTo(quantity - decreaseBy);
+    }
+
+    @Test
+    void shouldThrowException_whenDecreaseQuantityIsCalled_givenNegativeInput() {
+        // Given
+        var freezer = FreezerTestFactory.createTestFreezerWithOneShelfAndOneFreezerItem();
+        List<FreezerItem> freezerItems = getFreezerItems(freezer);
+        FreezerItem freezerItem = freezerItems.get(0);
+        int decreaseBy = -1;
+
+        // When / then
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> freezer.decreaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), decreaseBy))
+                .withMessage("'value' must be positive, current value: %d".formatted(decreaseBy));
+    }
+
+    @Test
+    void shouldThrowException_whenDecreaseQuantityIsCalled_givenNegativeQuantity() {
+        // Given
+        int quantity = 10;
+        var freezer = FreezerTestFactory.createTestFreezerWithOneShelfAndOneFreezerItem(10);
+        List<FreezerItem> freezerItems = getFreezerItems(freezer);
+        FreezerItem freezerItem = freezerItems.get(0);
+        int decreaseBy = 11;
+
+        // When / then
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> freezer.decreaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), decreaseBy))
+                .withMessage("'quantity' must not be negative, current value: %d".formatted(quantity - decreaseBy));
     }
 
     private List<FreezerItem> getFreezerItems(Freezer freezer) {

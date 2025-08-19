@@ -12,4 +12,15 @@ public class FreezerTestFactory {
     public static Freezer createTestFreezerWithThreeShelves() {
         return new Freezer(new UserId(1), "TestFreezer", 3);
     }
+
+    public static Freezer createTestFreezerWithOneShelfAndOneFreezerItem(int freezerItemQuantity) {
+        int shelfQuantity = 1;
+        var freezer = new Freezer(new UserId(1), "TestFreezer", 1);
+        freezer.addFreezerItem(shelfQuantity, freezerItemQuantity, "Chicken", "Pre cooked");
+        return freezer;
+    }
+
+    public static Freezer createTestFreezerWithOneShelfAndOneFreezerItem() {
+        return createTestFreezerWithOneShelfAndOneFreezerItem(1);
+    }
 }
