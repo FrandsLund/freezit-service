@@ -2,9 +2,9 @@ package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.AggregateRoot;
 import com.frandslund.freezermanagement.common.DomainEvent;
-import com.frandslund.freezermanagement.event.FreezerAddedEvent;
-import com.frandslund.freezermanagement.event.FreezerItemAddedEvent;
-import com.frandslund.freezermanagement.model.exception.ShelfDoesNotExistException;
+import com.frandslund.freezermanagement.model.freezer.event.FreezerAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.event.FreezerItemAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.exception.ShelfDoesNotExistException;
 
 import java.util.*;
 import java.util.function.Function;

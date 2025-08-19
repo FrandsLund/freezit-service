@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.exception;
+package com.frandslund.freezermanagement.model.freezer.exception;
 
 import java.util.NoSuchElementException;
 

@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model;
+package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.UserId;

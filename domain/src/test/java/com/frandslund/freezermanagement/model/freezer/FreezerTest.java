@@ -1,12 +1,9 @@
-package com.frandslund.freezermanagement.model;
+package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.DomainEvent;
-import com.frandslund.freezermanagement.event.FreezerAddedEvent;
-import com.frandslund.freezermanagement.event.FreezerItemAddedEvent;
-import com.frandslund.freezermanagement.model.exception.ShelfDoesNotExistException;
-import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.model.freezer.FreezerItem;
+import com.frandslund.freezermanagement.model.freezer.event.FreezerAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.event.FreezerItemAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.exception.ShelfDoesNotExistException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
