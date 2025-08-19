@@ -86,7 +86,7 @@ public class FreezerResource {
             description = "Freezer does not exist for freezerId",
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
-    public FreezerWebModel getFreezer(@PathParam("userId") int userId, @PathParam("freezerName") String freezerName) {
+    public FreezerWebModel getFreezerByUserIdAndFreezerName(@PathParam("userId") int userId, @PathParam("freezerName") String freezerName) {
         try {
             Freezer freezer = getFreezerUseCase.getFreezer(new UserId(userId), freezerName);
             return FreezerWebModel.fromDomainModel(freezer);

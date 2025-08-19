@@ -1,12 +1,6 @@
 package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 
-import com.frandslund.freezermanagement.model.freezer.Freezer;
-import com.frandslund.freezermanagement.model.freezer.FreezerId;
-import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.model.freezer.FreezerItem;
-import com.frandslund.freezermanagement.model.freezer.FreezerItemId;
-import com.frandslund.freezermanagement.model.freezer.ItemData;
-import com.frandslund.freezermanagement.model.freezer.Shelf;
+import com.frandslund.freezermanagement.model.freezer.*;
 
 final class FreezerMapper {
 
@@ -15,22 +9,40 @@ final class FreezerMapper {
 
     static FreezerEntity toFreezerEntity(Freezer freezer) {
         FreezerEntity freezerEntity = new FreezerEntity();
-        freezerEntity.setFreezerId(freezer.getFreezerId().freezerId());
+        freezerEntity.setFreezerId(freezer
+                                           .getFreezerId()
+                                           .freezerId());
         freezerEntity.setName(freezer.getName());
-        freezerEntity.setUserId(freezer.getUserId().userId());
-        var shelfEntities = freezer.getShelves().stream().map(shelf -> toShelfEntity(shelf, freezerEntity)).toList();
-        freezerEntity.getShelfEntities().addAll(shelfEntities);
+        freezerEntity.setUserId(freezer
+                                        .getUserId()
+                                        .userId());
+        var shelfEntities = freezer
+                .getShelves()
+                .stream()
+                .map(shelf -> toShelfEntity(shelf, freezerEntity))
+                .toList();
+        freezerEntity
+                .getShelfEntities()
+                .addAll(shelfEntities);
         return freezerEntity;
 
     }
 
     static Freezer toFreezer(FreezerEntity freezerEntity) {
-        var shelves = freezerEntity.getShelfEntities().stream().map(FreezerMapper::toShelf).toList();
+        var shelves = freezerEntity
+                .getShelfEntities()
+                .stream()
+                .map(FreezerMapper::toShelf)
+                .toList();
         return new Freezer(new FreezerId(freezerEntity.getFreezerId()), new UserId(freezerEntity.getUserId()), freezerEntity.getName(), shelves);
     }
 
     private static Shelf toShelf(ShelfEntity shelfEntity) {
-        var freezerItems = shelfEntity.getFreezerItemEntities().stream().map(FreezerMapper::toFreezerItem).toList();
+        var freezerItems = shelfEntity
+                .getFreezerItemEntities()
+                .stream()
+                .map(FreezerMapper::toFreezerItem)
+                .toList();
         return new Shelf(shelfEntity.getShelfNumber(), freezerItems);
     }
 
@@ -42,21 +54,38 @@ final class FreezerMapper {
 
     private static FreezerItemEntity toFreezerItemEntity(FreezerItem freezerItem, ShelfEntity shelfEntity) {
         FreezerItemEntity freezerItemEntity = new FreezerItemEntity();
-        freezerItemEntity.setFreezerItemId(freezerItem.getFreezerItemId().freezerItemId());
-        freezerItemEntity.setDateAdded(freezerItem.getItemData().dateAdded());
-        freezerItemEntity.setName(freezerItem.getItemData().name());
-        freezerItemEntity.setDescription(freezerItem.getItemData().description());
+        freezerItemEntity.setFreezerItemId(freezerItem
+                                                   .getFreezerItemId()
+                                                   .freezerItemId());
+        freezerItemEntity.setDateAdded(freezerItem
+                                               .getItemData()
+                                               .dateAdded());
+        freezerItemEntity.setName(freezerItem
+                                          .getItemData()
+                                          .name());
+        freezerItemEntity.setQuantity(freezerItem.getQuantity());
+        freezerItemEntity.setDescription(freezerItem
+                                                 .getItemData()
+                                                 .description());
         freezerItemEntity.setShelfEntity(shelfEntity);
         return freezerItemEntity;
     }
 
     private static ShelfEntity toShelfEntity(Shelf shelf, FreezerEntity freezerEntity) {
         ShelfEntity shelfEntity = new ShelfEntity();
-        shelfEntity.setShelfId(shelf.getShelfId().shelfId());
+        shelfEntity.setShelfId(shelf
+                                       .getShelfId()
+                                       .shelfId());
         shelfEntity.setShelfNumber(shelf.getShelfNumber());
         shelfEntity.setFreezerEntity(freezerEntity);
-        var freezerItemEntities = shelf.getFreezerItems().stream().map(freezerItem -> toFreezerItemEntity(freezerItem, shelfEntity)).toList();
-        shelfEntity.getFreezerItemEntities().addAll(freezerItemEntities);
+        var freezerItemEntities = shelf
+                .getFreezerItems()
+                .stream()
+                .map(freezerItem -> toFreezerItemEntity(freezerItem, shelfEntity))
+                .toList();
+        shelfEntity
+                .getFreezerItemEntities()
+                .addAll(freezerItemEntities);
         return shelfEntity;
     }
 
