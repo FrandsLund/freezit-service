@@ -1,7 +1,7 @@
 package com.frandslund.freezermanagement.adapter.in.rest.dto;
 
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
-import com.frandslund.freezermanagement.model.freezeritem.ItemData;
+import com.frandslund.freezermanagement.model.freezer.FreezerItem;
+import com.frandslund.freezermanagement.model.freezer.ItemData;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.Instant;

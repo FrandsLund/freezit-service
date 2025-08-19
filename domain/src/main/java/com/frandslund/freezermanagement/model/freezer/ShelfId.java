@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.shelf;
+package com.frandslund.freezermanagement.model.freezer;
 
 import java.util.Objects;
 import java.util.UUID;

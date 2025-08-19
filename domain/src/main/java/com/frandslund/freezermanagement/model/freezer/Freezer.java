@@ -5,10 +5,6 @@ import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.event.FreezerItemAddedEvent;
 import com.frandslund.freezermanagement.model.exception.ShelfDoesNotExistException;
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItemId;
-import com.frandslund.freezermanagement.model.freezeritem.ItemData;
-import com.frandslund.freezermanagement.model.shelf.Shelf;
 
 import java.util.*;
 import java.util.function.Function;

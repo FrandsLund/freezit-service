@@ -1,6 +1,6 @@
 package com.frandslund.freezermanagement.adapter.in.rest.dto;
 
-import com.frandslund.freezermanagement.model.shelf.Shelf;
+import com.frandslund.freezermanagement.model.freezer.Shelf;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;

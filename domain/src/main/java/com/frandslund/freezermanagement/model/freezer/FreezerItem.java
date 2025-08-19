@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.freezeritem;
+package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.Entity;
 
@@ -21,12 +21,12 @@ public class FreezerItem extends Entity {
         this.quantity = quantity;
     }
 
-    public void increaseQuantityBy(int value) {
+    void increaseQuantityBy(int value) {
         validatePositiveInput(value);
         quantity += value;
     }
 
-    public void decreaseQuantityBy(int value) {
+    void decreaseQuantityBy(int value) {
         validatePositiveInput(value);
         quantity -= value;
         validateQuantity(quantity);

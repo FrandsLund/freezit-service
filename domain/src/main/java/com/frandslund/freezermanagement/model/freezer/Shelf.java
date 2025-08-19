@@ -1,7 +1,6 @@
-package com.frandslund.freezermanagement.model.shelf;
+package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.Entity;
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class Shelf extends Entity {
         return shelfNumber;
     }
 
-    public Shelf addFreezerItem(FreezerItem freezerItem) {
+    Shelf addFreezerItem(FreezerItem freezerItem) {
         freezerItems.add(freezerItem);
         return this;
     }

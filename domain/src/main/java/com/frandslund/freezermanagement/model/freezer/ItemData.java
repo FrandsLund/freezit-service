@@ -1,4 +1,4 @@
-package com.frandslund.freezermanagement.model.freezeritem;
+package com.frandslund.freezermanagement.model.freezer;
 
 import java.time.Instant;
 

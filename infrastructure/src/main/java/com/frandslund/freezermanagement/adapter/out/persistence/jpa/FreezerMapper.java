@@ -3,10 +3,10 @@ package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
-import com.frandslund.freezermanagement.model.freezeritem.FreezerItemId;
-import com.frandslund.freezermanagement.model.freezeritem.ItemData;
-import com.frandslund.freezermanagement.model.shelf.Shelf;
+import com.frandslund.freezermanagement.model.freezer.FreezerItem;
+import com.frandslund.freezermanagement.model.freezer.FreezerItemId;
+import com.frandslund.freezermanagement.model.freezer.ItemData;
+import com.frandslund.freezermanagement.model.freezer.Shelf;
 
 final class FreezerMapper {
 
