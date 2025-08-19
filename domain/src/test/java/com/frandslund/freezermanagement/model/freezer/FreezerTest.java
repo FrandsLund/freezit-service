@@ -108,9 +108,7 @@ public class FreezerTest {
 
         // When / then
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> {
-                    freezer.addFreezerItem(shelfNumber, quantity, name, description);
-                })
+                .isThrownBy(() -> freezer.addFreezerItem(shelfNumber, quantity, name, description))
                 .withMessage("'quantity' must not be negative, current value: %s".formatted(quantity));
     }
 
@@ -126,9 +124,7 @@ public class FreezerTest {
 
         // When / then
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> {
-                    freezer.addFreezerItem(shelfNumber, quantity, name, description);
-                })
+                .isThrownBy(() -> freezer.addFreezerItem(shelfNumber, quantity, name, description))
                 .withMessage("'name' cannot be empty");
     }
 
@@ -167,9 +163,7 @@ public class FreezerTest {
 
         // When / then
         assertThatExceptionOfType(ShelfDoesNotExistException.class)
-                .isThrownBy(() -> {
-                    freezer.addFreezerItem(shelfNumber, quantity, name, description);
-                })
+                .isThrownBy(() -> freezer.addFreezerItem(shelfNumber, quantity, name, description))
                 .withMessage("Shelf with id=%d not found".formatted(shelfNumber));
     }
 
