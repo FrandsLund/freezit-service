@@ -22,20 +22,37 @@ public class FreezerTest {
         String freezerName = "My new freezer";
         int shelfQuantity = 5;
 
-        String requestBody = "{"
-                + "\"userId\": " + userId + ","
-                + "\"freezerName\": \"" + freezerName + "\","
-                + "\"shelfQuantity\": " + shelfQuantity
-                + "}";
+        String requestBody = """
+                {
+                     "userId": "%s",
+                     "freezerName": "%s",
+                     "shelfQuantity": %d
+                }
+                """.formatted(userId, freezerName, shelfQuantity);
 
         // When
-        Response response = given().contentType(ContentType.JSON).body(requestBody).post("/freezers").then().extract().response();
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .post("/freezers")
+                .then()
+                .extract()
+                .response();
 
         // Then
         assertThat(response.statusCode()).isEqualTo(RestResponse.StatusCode.CREATED);
-        assertThat(response.jsonPath().getString("freezerId")).isNotNull();
-        assertThat(response.jsonPath().getInt("userId")).isEqualTo(userId);
-        assertThat(response.jsonPath().getString("freezerName")).isEqualTo(freezerName);
-        assertThat(response.jsonPath().getList("shelves").size()).isEqualTo(shelfQuantity);
+        assertThat(response
+                           .jsonPath()
+                           .getString("freezerId")).isNotNull();
+        assertThat(response
+                           .jsonPath()
+                           .getInt("userId")).isEqualTo(userId);
+        assertThat(response
+                           .jsonPath()
+                           .getString("freezerName")).isEqualTo(freezerName);
+        assertThat(response
+                           .jsonPath()
+                           .getList("shelves")
+                           .size()).isEqualTo(shelfQuantity);
     }
 }
