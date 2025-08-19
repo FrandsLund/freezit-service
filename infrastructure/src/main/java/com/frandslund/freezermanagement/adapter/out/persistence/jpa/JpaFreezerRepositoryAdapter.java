@@ -4,7 +4,7 @@ import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
+import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

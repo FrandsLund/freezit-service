@@ -1,10 +1,10 @@
-package com.frandslund.freezermanagement.service.freezer;
+package com.frandslund.freezermanagement.freezer.service;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.in.freezer.GetFreezerUseCase;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
+import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
+import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 
 import java.util.NoSuchElementException;
 

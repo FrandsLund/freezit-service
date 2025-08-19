@@ -1,10 +1,10 @@
-package com.frandslund.freezermanagement.service.freezer;
+package com.frandslund.freezermanagement.freezer.service;
 
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.port.in.freezer.CreateFreezerUseCase;
-import com.frandslund.freezermanagement.port.out.event.freezer.DomainEventPublisherPort;
-import com.frandslund.freezermanagement.port.out.persistence.freezer.FreezerRepositoryPort;
+import com.frandslund.freezermanagement.freezer.port.in.CreateFreezerUseCase;
+import com.frandslund.freezermanagement.freezer.port.out.messaging.DomainEventPublisherPort;
+import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import jakarta.transaction.Transactional;
 
 public class CreateFreezerService implements CreateFreezerUseCase {
