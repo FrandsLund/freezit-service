@@ -13,7 +13,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-// TODO: Update test naming
 public class CreateFreezerServiceTest {
 
     private final FreezerRepository freezerRepository = mock(FreezerRepository.class);
@@ -21,7 +20,7 @@ public class CreateFreezerServiceTest {
     private final CreateFreezerService createFreezerService = new CreateFreezerService(freezerRepository, domainEventPublisher);
 
     @Test
-    void createFreezer_freezerCreated() {
+    void shouldCreateFreezer_whenCreateFreezerIsRequestedWithValidInput() {
         // Given
         int userId = 5;
         String name = "TestFreezer";

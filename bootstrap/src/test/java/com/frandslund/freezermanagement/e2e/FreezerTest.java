@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class FreezerTest {
 
     @Test
-    void givenNoFreezerExists_createFreezer_thenFreezerIsCreatedWithCorrectValues() {
+    void shouldCreateValidFreezer_whenCreateFreezerIsRequested_withValidInput() {
         // Given
         int userId = 123;
         String freezerName = "My new freezer";
