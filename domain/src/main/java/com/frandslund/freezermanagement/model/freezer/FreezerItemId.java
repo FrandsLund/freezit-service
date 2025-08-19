@@ -8,4 +8,8 @@ public record FreezerItemId(UUID freezerItemId) {
         Objects.requireNonNull(freezerItemId, "freezerItemId cannot be null");
     }
 
+    public FreezerItemId(String id) {
+        this(UUID.fromString(id));
+    }
+
 }

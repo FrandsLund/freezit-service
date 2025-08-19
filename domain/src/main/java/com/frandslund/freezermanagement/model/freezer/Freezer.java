@@ -4,6 +4,7 @@ import com.frandslund.freezermanagement.common.AggregateRoot;
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerItemAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.event.FreezerItemQuantityIncreasedEvent;
 import com.frandslund.freezermanagement.model.freezer.exception.ShelfDoesNotExistException;
 
 import java.util.*;
@@ -60,24 +61,27 @@ public class Freezer extends AggregateRoot {
         }
     }
 
-    public void increaseFreezerItemQuantityBy(FreezerItemId itemId, int value) {
+    public void increaseFreezerItemQuantityBy(FreezerItemId itemId, int quantity) {
         getFreezerItems()
                 .stream()
                 .filter(item -> item
                         .getFreezerItemId()
                         .equals(itemId))
                 .findFirst()
-                .ifPresent(item -> item.increaseQuantityBy(value));
+                .ifPresent(item -> {
+                    item.increaseQuantityBy(quantity);
+                    domainEvents.add(new FreezerItemQuantityIncreasedEvent(freezerId, item, quantity));
+                });
     }
 
-    public void decreaseFreezerItemQuantityBy(FreezerItemId itemId, int value) {
+    public void decreaseFreezerItemQuantityBy(FreezerItemId itemId, int quantity) {
         getFreezerItems()
                 .stream()
                 .filter(item -> item
                         .getFreezerItemId()
                         .equals(itemId))
                 .findFirst()
-                .ifPresent(item -> item.decreaseQuantityBy(value));
+                .ifPresent(item -> item.decreaseQuantityBy(quantity));
     }
 
     public FreezerId getFreezerId() {
@@ -118,12 +122,7 @@ public class Freezer extends AggregateRoot {
 
     @Override
     public String toString() {
-        return "Freezer{" +
-                "freezerId=" + freezerId +
-                ", userId=" + userId +
-                ", name='" + name + '\'' +
-                ", shelves=" + shelves +
-                '}';
+        return "Freezer{" + "freezerId=" + freezerId.freezerId() + ", userId=" + userId + ", name='" + name + '\'' + ", shelves=" + shelves + '}';
     }
 
     private List<FreezerItem> getFreezerItems() {

@@ -4,10 +4,12 @@ import com.frandslund.freezermanagement.adapter.out.event.FreezerEventPublisherA
 import com.frandslund.freezermanagement.freezer.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
+import com.frandslund.freezermanagement.freezer.port.in.IncreaseFreezerItemQuantityUseCase;
 import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import com.frandslund.freezermanagement.freezer.service.CreateFreezerService;
 import com.frandslund.freezermanagement.freezer.service.GetFreezerService;
 import com.frandslund.freezermanagement.freezer.service.AddFreezerItemService;
+import com.frandslund.freezermanagement.freezer.service.IncreaseFreezerItemQuantityService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;
@@ -38,6 +40,12 @@ class QuarkusAppConfig {
     @ApplicationScoped
     AddFreezerItemUseCase addFreezerItemUseCase() {
         return new AddFreezerItemService(freezerRepositoryPort.get(), freezerEventPublisherAdapter);
+    }
+
+    @Produces
+    @ApplicationScoped
+    IncreaseFreezerItemQuantityUseCase IncreaseFreezerItemQuantityUseCase() {
+        return new IncreaseFreezerItemQuantityService(freezerRepositoryPort.get(), freezerEventPublisherAdapter);
     }
 
 

@@ -43,7 +43,7 @@ public class Shelf extends Entity {
     @Override
     public String toString() {
         return "Shelf{" +
-                "shelfId=" + shelfId +
+                "shelfId=" + shelfId.shelfId() +
                 ", shelfNumber=" + shelfNumber +
                 ", freezerItems=" + freezerItems +
                 '}';

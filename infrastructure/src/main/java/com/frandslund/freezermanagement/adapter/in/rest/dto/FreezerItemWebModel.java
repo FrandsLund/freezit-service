@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 
-@Schema(name = "FreezerItemWebModel", description = "Web model for an item stored in a freezer")
+@Schema(name = "FreezerItemWebModel", description = "Web model for an freezerItem stored in a freezer")
 public record FreezerItemWebModel(@Schema(examples = {"111e2222-3333-4444-5555-666677778888"}) UUID id,
                                   @Schema(examples = {"Chicken breast"}) String name,
                                   @Schema(examples = {"4"}) int quantity,

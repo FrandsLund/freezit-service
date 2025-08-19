@@ -67,7 +67,7 @@ public class FreezerItem extends Entity {
     @Override
     public String toString() {
         return "FreezerItem{" +
-                "freezerItemId=" + freezerItemId +
+                "freezerItemId=" + freezerItemId.freezerItemId() +
                 ", itemData=" + itemData +
                 ", quantity=" + quantity +
                 '}';

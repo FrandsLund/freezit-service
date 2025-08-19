@@ -1,10 +1,11 @@
 package com.frandslund.freezermanagement.freezer.service;
 
+import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
+import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
-import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
-import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerDoesNotExistException;
 
 import java.util.NoSuchElementException;
 
@@ -19,12 +20,14 @@ public class GetFreezerService implements GetFreezerUseCase {
     @Override
     public Freezer getFreezer(FreezerId freezerId) throws NoSuchElementException {
         return freezerRepositoryPort
-                .findById(freezerId).orElseThrow(() -> new NoSuchElementException("Freezer with ID " + freezerId.freezerId().toString() + " not found."));
+                .findById(freezerId)
+                .orElseThrow(() -> new FreezerDoesNotExistException(freezerId));
     }
 
     @Override
     public Freezer getFreezer(UserId userId, String freezerName) {
         return freezerRepositoryPort
-                .findByUserIdAndFreezerName(userId, freezerName).orElseThrow(() -> new NoSuchElementException("Freezer not found"));
+                .findByUserIdAndFreezerName(userId, freezerName)
+                .orElseThrow(() -> new FreezerDoesNotExistException(freezerName));
     }
 }
