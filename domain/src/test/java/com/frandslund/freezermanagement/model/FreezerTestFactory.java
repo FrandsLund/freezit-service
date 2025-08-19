@@ -1,4 +1,7 @@
-package com.frandslund.freezermanagement.model.freezer;
+package com.frandslund.freezermanagement.model;
+
+import com.frandslund.freezermanagement.model.freezer.Freezer;
+import com.frandslund.freezermanagement.model.freezer.UserId;
 
 public class FreezerTestFactory {
 

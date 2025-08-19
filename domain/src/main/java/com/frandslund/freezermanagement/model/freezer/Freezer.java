@@ -4,6 +4,7 @@ import com.frandslund.freezermanagement.common.AggregateRoot;
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.event.FreezerItemAddedEvent;
+import com.frandslund.freezermanagement.model.exception.ShelfDoesNotExistException;
 import com.frandslund.freezermanagement.model.freezeritem.FreezerItem;
 import com.frandslund.freezermanagement.model.freezeritem.ItemData;
 import com.frandslund.freezermanagement.model.shelf.Shelf;
@@ -24,9 +25,8 @@ public class Freezer extends AggregateRoot {
     public Freezer(UserId userId, String name, int shelfQuantity) {
         this(new FreezerId(UUID.randomUUID()), userId, name, new ArrayList<>());
 
-        // TODO: Is it an issue that this is places after the constructor
         if (shelfQuantity < 1) {
-            throw new IllegalArgumentException(("'shelfQuantity must be greater than 0, current value: %s").formatted(shelfQuantity));
+            throw new IllegalArgumentException(("'shelfQuantity' must be greater than 0, current value: %s").formatted(shelfQuantity));
         }
 
         for (int i = 0; i < shelfQuantity; i++) {
@@ -40,7 +40,9 @@ public class Freezer extends AggregateRoot {
         this.userId = userId;
         this.name = name;
         this.freezerId = freezerId;
-        this.shelves = shelves.stream().collect(Collectors.toMap(Shelf::getShelfNumber, Function.identity()));
+        this.shelves = shelves
+                .stream()
+                .collect(Collectors.toMap(Shelf::getShelfNumber, Function.identity()));
     }
 
     private void addShelf(int shelfNumber) {
@@ -50,12 +52,15 @@ public class Freezer extends AggregateRoot {
     public void addFreezerItem(int shelfNumber, int quantity, String name, String description) {
         ItemData itemData = new ItemData(name, description);
         FreezerItem freezerItem = new FreezerItem(itemData, quantity);
-        shelves.computeIfPresent(shelfNumber, (key, shelf) -> {
+        Shelf updatedShelf = shelves.computeIfPresent(shelfNumber, (key, shelf) -> {
             shelf.addFreezerItem(freezerItem);
             domainEvents.add(new FreezerItemAddedEvent(freezerId, freezerItem.getFreezerItemId()));
             return shelf;
         });
 
+        if (Objects.isNull(updatedShelf)) {
+            throw new ShelfDoesNotExistException(shelfNumber);
+        }
     }
 
     public FreezerId getFreezerId() {
@@ -63,7 +68,10 @@ public class Freezer extends AggregateRoot {
     }
 
     public List<Shelf> getShelves() {
-        return shelves.values().stream().toList();
+        return shelves
+                .values()
+                .stream()
+                .toList();
     }
 
     public String getName() {

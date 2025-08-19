@@ -54,13 +54,13 @@ public class FreezerItem extends Entity {
 
     private void validatePositiveInput(int value) {
         if (value < 1) {
-            throw new IllegalArgumentException("'value' must be positive");
+            throw new IllegalArgumentException("'value' must be positive, current value: %d".formatted(value));
         }
     }
 
     private void validateQuantity(int quantity) {
         if (quantity < 0) {
-            throw new IllegalArgumentException("'quantity' must not be negative");
+            throw new IllegalArgumentException("'quantity' must not be negative, current value: %d".formatted(quantity));
         }
     }
 

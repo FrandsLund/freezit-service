@@ -61,6 +61,7 @@ public class FreezerResource {
             content = @Content(mediaType = MediaType.APPLICATION_JSON)
     )
     public FreezerWebModel getFreezer(@PathParam("freezerId") String freezerId) {
+        // TODO: Add ExceptionMapper class to reduce boiler plate code
         try {
             Freezer freezer = getFreezerUseCase.getFreezer(new FreezerId(UUID.fromString(freezerId)));
             return FreezerWebModel.fromDomainModel(freezer);
