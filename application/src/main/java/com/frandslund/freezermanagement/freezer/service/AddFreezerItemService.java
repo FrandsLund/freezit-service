@@ -7,12 +7,16 @@ import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
 
 public class AddFreezerItemService implements AddFreezerItemUseCase {
     private final FreezerRepositoryPort freezerRepositoryPort;
     private final DomainEventPublisherPort eventPublisher;
+
+    private final static Logger LOG = LoggerFactory.getLogger(AddFreezerItemService.class);
 
     public AddFreezerItemService(FreezerRepositoryPort freezerRepositoryPort, DomainEventPublisherPort eventPublisher) {
         this.freezerRepositoryPort = freezerRepositoryPort;
@@ -26,10 +30,14 @@ public class AddFreezerItemService implements AddFreezerItemUseCase {
                 .findById(freezerId)
                 .orElseThrow(() -> new FreezerNotFoundException(freezerId));
         freezer.addFreezerItem(shelfNumber, quantity, name, description);
-        freezerRepositoryPort.save(freezer);
-        freezer
-                .getDomainEvents()
-                .forEach(eventPublisher::publish);
+        try{
+            freezerRepositoryPort.save(freezer);
+            freezer
+                    .getDomainEvents()
+                    .forEach(eventPublisher::publish);
+        }catch (RuntimeException e){
+            LOG.error("TEST LOG",e);
+        }
         return freezer;
     }
 }

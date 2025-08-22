@@ -4,5 +4,4 @@ public class DuplicateFreezerNameException extends RuntimeException {
     public DuplicateFreezerNameException(String message) {
         super(message);
     }
-
 }

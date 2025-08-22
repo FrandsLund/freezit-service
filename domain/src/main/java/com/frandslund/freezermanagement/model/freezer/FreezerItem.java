@@ -1,6 +1,7 @@
 package com.frandslund.freezermanagement.model.freezer;
 
 import com.frandslund.freezermanagement.common.Entity;
+import com.frandslund.freezermanagement.model.freezer.exception.InvalidFreezerItemQuantityException;
 
 import java.util.UUID;
 
@@ -52,16 +53,15 @@ public class FreezerItem extends Entity {
         this.quantity = quantity;
     }
 
-    // TODO: Change to custom exception: InvalidFreezerItemQuantityException
     private void validatePositiveInput(int value) {
         if (value < 1) {
-            throw new IllegalArgumentException("'value' must be positive, current value: %d".formatted(value));
+            throw new InvalidFreezerItemQuantityException("'value' must be positive, current value: %d".formatted(value));
         }
     }
 
     private void validateQuantity(int quantity) {
         if (quantity < 0) {
-            throw new IllegalArgumentException("'quantity' must not be negative, current value: %d".formatted(quantity));
+            throw new InvalidFreezerItemQuantityException("'quantity' must not be negative, current value: %d".formatted(quantity));
         }
     }
 

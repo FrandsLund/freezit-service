@@ -15,6 +15,7 @@ import com.frandslund.freezermanagement.model.freezer.FreezerItemId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
 import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
+import com.frandslund.freezermanagement.model.freezer.exception.InvalidFreezerItemQuantityException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -42,7 +43,6 @@ public class FreezerResource {
     private final GetFreezerUseCase getFreezerUseCase;
     private final AddFreezerItemUseCase addFreezerItemUseCase;
     private final IncreaseFreezerItemQuantityUseCase increaseFreezerItemQuantityUseCase;
-
     private static final Logger LOG = LoggerFactory.getLogger(FreezerResource.class);
 
     public FreezerResource(CreateFreezerUseCase createFreezerUseCase, GetFreezerUseCase getFreezerUseCase, AddFreezerItemUseCase addFreezerItemUseCase, IncreaseFreezerItemQuantityUseCase increaseFreezerItemQuantityUseCase) {
@@ -94,7 +94,7 @@ public class FreezerResource {
                     .build();
         } catch (DuplicateFreezerNameException e) {
             // TODO: Not reached
-            LOG.info("Duplicate freezerNameException");
+            LOG.debug("DuplicateFreezerNameException caught", e);
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity(e.getMessage())
@@ -131,7 +131,7 @@ public class FreezerResource {
         UUID freezerItemId = updateFreezerItemQuantityRequest.freezerItemId();
         int quantity = updateFreezerItemQuantityRequest.quantity();
 
-        LOG.info("Increase freezer item quantity requested, freezerItem={} quantity={}", freezerItemId, quantity);
+        LOG.info("Increase freezer item quantity requested, freezerItemId={} quantity={}", freezerItemId, quantity);
 
 
         try {
@@ -140,7 +140,9 @@ public class FreezerResource {
                     .toString(), quantity);
             FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
 
-            LOG.debug("Quantity of freezerItem increased, freezerItemId={}, quantity={}", freezerItemId, freezer.getFreezerItem(new FreezerItemId(freezerItemId)).getQuantity());
+            LOG.debug("Quantity of freezerItem increased, freezerItemId={}, quantity={}", freezerItemId, freezer
+                    .getFreezerItem(new FreezerItemId(freezerItemId))
+                    .getQuantity());
 
             return Response
                     .ok(URI.create("/freezers/" + freezer
@@ -149,7 +151,11 @@ public class FreezerResource {
                     .entity(freezerWebModel)
                     .build();
         } catch (FreezerNotFoundException e) {
+            LOG.debug("FreezerNotFoundException caught, errorMessage={}", e.getMessage());
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
+        } catch (InvalidFreezerItemQuantityException e) {
+            LOG.debug("InvalidFreezerItemQuantityException caught, errorMessage={}", e.getMessage());
+            throw clientErrorException(Response.Status.CONFLICT, e.getMessage());
         }
     }
 }

@@ -1,13 +1,14 @@
 package com.frandslund.freezermanagement.adapter.out.persistence.jpa;
 
+import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
-import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import io.quarkus.arc.lookup.LookupIfProperty;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.transaction.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,14 @@ import java.util.Optional;
 // TODO: Find ud af, hvorfor denne ikke bare implementerer PanacheRepositoryBase
 
 @LookupIfProperty(name = "persistence", stringValue = "jpa")
-@Transactional
 @ApplicationScoped
 public class JpaFreezerRepositoryAdapter implements FreezerRepositoryPort {
 
     private final JpaPanacheFreezerRepository panacheRepository;
-
     private static final Logger LOG = LoggerFactory.getLogger(JpaFreezerRepositoryAdapter.class);
+    // TODO: Constructor inject, create test with mock, where userTransaction throws ConstraintViolation exception
+    @Inject
+    private UserTransaction userTransaction;
 
     public JpaFreezerRepositoryAdapter(JpaPanacheFreezerRepository panacheRepository) {
         this.panacheRepository = panacheRepository;
@@ -43,23 +45,29 @@ public class JpaFreezerRepositoryAdapter implements FreezerRepositoryPort {
 
     @Override
     public Optional<Freezer> findByUserIdAndFreezerName(UserId userId, String freezerName) {
-        return panacheRepository.find("userId = ?1 and name = ?2", userId.userId(), freezerName).firstResultOptional().map(FreezerMapper::toFreezer);
+        return panacheRepository
+                .find("userId = ?1 and name = ?2", userId.userId(), freezerName)
+                .firstResultOptional()
+                .map(FreezerMapper::toFreezer);
     }
 
+    // TODO: Might not be the ideal way of doing this...
     @Override
     public void save(Freezer freezer) {
-        LOG.debug("save() freezer called: {}", freezer);
+        LOG.debug("Save freezer called, freezer={}", freezer);
         try {
-            panacheRepository.getEntityManager().merge(FreezerMapper.toFreezerEntity(freezer));
-        } catch (RuntimeException e) {
-            // TODO: Log not printed
-            LOG.info("User tried to create duplicate freezer name");
+            userTransaction.begin();
+            panacheRepository
+                    .getEntityManager()
+                    .merge(FreezerMapper.toFreezerEntity(freezer));
+            userTransaction.commit();
+        } catch (RollbackException e) {
             if (e.getCause() instanceof ConstraintViolationException) {
-                throw new DuplicateFreezerNameException(
-                        "A freezer with this name already exists for the user."
-                );
+                throw new DuplicateFreezerNameException("A freezer with this name already exists for the user");
             }
-            throw e;
+            throw new RuntimeException(e);
+        } catch (HeuristicRollbackException | SystemException | HeuristicMixedException | NotSupportedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
