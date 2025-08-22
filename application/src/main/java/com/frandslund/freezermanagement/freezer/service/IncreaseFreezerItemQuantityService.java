@@ -6,14 +6,13 @@ import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepo
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.FreezerItemId;
-import com.frandslund.freezermanagement.model.freezer.exception.FreezerDoesNotExistException;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 import jakarta.transaction.Transactional;
 
 public class IncreaseFreezerItemQuantityService implements IncreaseFreezerItemQuantityUseCase {
 
     private final FreezerRepositoryPort freezerRepository;
     private final DomainEventPublisherPort eventPublisher;
-
 
     public IncreaseFreezerItemQuantityService(FreezerRepositoryPort freezerRepository, DomainEventPublisherPort eventPublisher) {
         this.freezerRepository = freezerRepository;
@@ -25,7 +24,7 @@ public class IncreaseFreezerItemQuantityService implements IncreaseFreezerItemQu
     public Freezer increaseFreezerItemQuantity(String freezerId, String freezerItemId, int quantity) {
         Freezer freezer = freezerRepository
                 .findById(new FreezerId(freezerId))
-                .orElseThrow(() -> new FreezerDoesNotExistException(freezerId));
+                .orElseThrow(() -> new FreezerNotFoundException(freezerId));
         freezer.increaseFreezerItemQuantityBy(new FreezerItemId(freezerItemId), quantity);
         freezerRepository.save(freezer);
         freezer

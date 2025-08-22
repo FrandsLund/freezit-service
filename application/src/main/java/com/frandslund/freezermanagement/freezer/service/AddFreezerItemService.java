@@ -5,7 +5,7 @@ import com.frandslund.freezermanagement.freezer.port.out.messaging.DomainEventPu
 import com.frandslund.freezermanagement.freezer.port.out.persistence.FreezerRepositoryPort;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
-import com.frandslund.freezermanagement.model.freezer.exception.FreezerDoesNotExistException;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.NoSuchElementException;
@@ -24,7 +24,7 @@ public class AddFreezerItemService implements AddFreezerItemUseCase {
     public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) throws NoSuchElementException {
         var freezer = freezerRepositoryPort
                 .findById(freezerId)
-                .orElseThrow(() -> new FreezerDoesNotExistException(freezerId));
+                .orElseThrow(() -> new FreezerNotFoundException(freezerId));
         freezer.addFreezerItem(shelfNumber, quantity, name, description);
         freezerRepositoryPort.save(freezer);
         freezer

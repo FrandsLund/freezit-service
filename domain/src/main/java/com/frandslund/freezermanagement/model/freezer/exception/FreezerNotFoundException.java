@@ -4,12 +4,12 @@ import com.frandslund.freezermanagement.model.freezer.FreezerId;
 
 import java.util.NoSuchElementException;
 
-public class FreezerDoesNotExistException extends NoSuchElementException {
-    public FreezerDoesNotExistException(FreezerId freezerId) {
+public class FreezerNotFoundException extends NoSuchElementException {
+    public FreezerNotFoundException(FreezerId freezerId) {
         super("Freezer with id=%s not found".formatted(freezerId.toString()));
     }
 
-    public FreezerDoesNotExistException(String freezerName) {
+    public FreezerNotFoundException(String freezerName) {
         super("Freezer with name=%s not found".formatted(freezerName));
     }
 }

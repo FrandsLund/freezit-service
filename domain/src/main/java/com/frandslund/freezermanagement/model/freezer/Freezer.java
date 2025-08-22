@@ -5,6 +5,7 @@ import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerItemAddedEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerItemQuantityIncreasedEvent;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerItemNotFoundException;
 import com.frandslund.freezermanagement.model.freezer.exception.ShelfDoesNotExistException;
 
 import java.util.*;
@@ -19,6 +20,7 @@ public class Freezer extends AggregateRoot {
     private final String name;
     private final Map<Integer, Shelf> shelves;
     private final List<DomainEvent> domainEvents = new ArrayList<>();
+
 
     public Freezer(UserId userId, String name, int shelfQuantity) {
         this(new FreezerId(UUID.randomUUID()), userId, name, new ArrayList<>());
@@ -58,6 +60,25 @@ public class Freezer extends AggregateRoot {
 
         if (Objects.isNull(updatedShelf)) {
             throw new ShelfDoesNotExistException(shelfNumber);
+        }
+    }
+
+    public FreezerItem getFreezerItem(FreezerItemId freezerItemId) {
+        try {
+            return this
+                    .getShelves()
+                    .stream()
+                    .flatMap(shelf -> shelf
+                            .getFreezerItems()
+                            .stream()
+                            .filter(fi -> fi
+                                    .getFreezerItemId()
+                                    .equals(freezerItemId)
+                            ))
+                    .toList()
+                    .getFirst();
+        } catch (NoSuchElementException e) {
+            throw new FreezerItemNotFoundException(freezerItemId);
         }
     }
 

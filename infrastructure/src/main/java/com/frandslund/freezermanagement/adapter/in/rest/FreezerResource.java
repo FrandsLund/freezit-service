@@ -4,15 +4,17 @@ package com.frandslund.freezermanagement.adapter.in.rest;
 import com.frandslund.freezermanagement.adapter.in.rest.dto.AddFreezerItemRequest;
 import com.frandslund.freezermanagement.adapter.in.rest.dto.CreateFreezerRequest;
 import com.frandslund.freezermanagement.adapter.in.rest.dto.FreezerWebModel;
+import com.frandslund.freezermanagement.adapter.in.rest.dto.UpdateFreezerItemQuantityRequest;
 import com.frandslund.freezermanagement.freezer.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.IncreaseFreezerItemQuantityUseCase;
 import com.frandslund.freezermanagement.model.freezer.Freezer;
 import com.frandslund.freezermanagement.model.freezer.FreezerId;
+import com.frandslund.freezermanagement.model.freezer.FreezerItemId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.DuplicateFreezerNameException;
-import com.frandslund.freezermanagement.model.freezer.exception.FreezerDoesNotExistException;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -43,8 +45,8 @@ public class FreezerResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(FreezerResource.class);
 
-
     public FreezerResource(CreateFreezerUseCase createFreezerUseCase, GetFreezerUseCase getFreezerUseCase, AddFreezerItemUseCase addFreezerItemUseCase, IncreaseFreezerItemQuantityUseCase increaseFreezerItemQuantityUseCase) {
+        LOG.info("FreezerResource initialized");
         this.createFreezerUseCase = createFreezerUseCase;
         this.getFreezerUseCase = getFreezerUseCase;
         this.addFreezerItemUseCase = addFreezerItemUseCase;
@@ -53,35 +55,34 @@ public class FreezerResource {
 
     @GET
     @Path("/{freezerId}")
-    @APIResponse(responseCode = "200", description = "Get freezer by freezerId", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FreezerWebModel.class)))
+    @APIResponse(responseCode = "200", description = "Get freezer by freezerId", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = FreezerWebModel.class)))
     @APIResponse(responseCode = "404", description = "Freezer does not exist for freezerId", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public FreezerWebModel getFreezer(@PathParam("freezerId") String freezerId) {
         try {
             Freezer freezer = getFreezerUseCase.getFreezer(new FreezerId(UUID.fromString(freezerId)));
             return FreezerWebModel.fromDomainModel(freezer);
-        } catch (FreezerDoesNotExistException e) {
+        } catch (FreezerNotFoundException e) {
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
         }
     }
 
     @GET
     @Path("/{userId}/{freezerName}")
-    @APIResponse(responseCode = "200", description = "Get freezer by userId and freezerName", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FreezerWebModel.class)))
+    @APIResponse(responseCode = "200", description = "Get freezer by userId and freezerName", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = FreezerWebModel.class)))
     @APIResponse(responseCode = "404", description = "Freezer does not exist for freezerId", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public FreezerWebModel getFreezerByUserIdAndFreezerName(@PathParam("userId") int userId, @PathParam("freezerName") String freezerName) {
         try {
             Freezer freezer = getFreezerUseCase.getFreezer(new UserId(userId), freezerName);
             return FreezerWebModel.fromDomainModel(freezer);
-        } catch (FreezerDoesNotExistException e) {
+        } catch (FreezerNotFoundException e) {
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
         }
     }
 
     @POST
-    @APIResponse(responseCode = "201", description = "Freezer created", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FreezerWebModel.class)))
+    @APIResponse(responseCode = "201", description = "Freezer created", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = FreezerWebModel.class)))
     public Response createFreezer(CreateFreezerRequest createFreezerRequest) {
-        LOG.info("Create freezer requested");
-
+        LOG.info("Create freezer requested, freezerName='{}'", createFreezerRequest.freezerName());
         try {
             Freezer freezer = createFreezerUseCase.createFreezer(createFreezerRequest.userId(), createFreezerRequest.freezerName(), createFreezerRequest.shelfQuantity());
             FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
@@ -92,6 +93,8 @@ public class FreezerResource {
                     .entity(freezerWebModel)
                     .build();
         } catch (DuplicateFreezerNameException e) {
+            // TODO: Not reached
+            LOG.info("Duplicate freezerNameException");
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity(e.getMessage())
@@ -101,7 +104,7 @@ public class FreezerResource {
 
     @POST
     @Path("/{freezerId}/{shelfNumber}")
-    @APIResponse(responseCode = "201", description = "Freezer freezerItem created", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FreezerWebModel.class)))
+    @APIResponse(responseCode = "201", description = "Freezer item created", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = FreezerWebModel.class)))
     @APIResponse(responseCode = "404", description = "Freezer does not exist for freezerId", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     public Response addFreezerItem(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, AddFreezerItemRequest addFreezerItemRequest) {
         try {
@@ -113,26 +116,39 @@ public class FreezerResource {
                             .freezerId()))
                     .entity(freezerWebModel)
                     .build();
-        } catch (FreezerDoesNotExistException e) {
+        } catch (FreezerNotFoundException e) {
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
         }
     }
 
     // TODO: Add OpenAPI documentation
-    // TODO: Consider best practice regarding shelfNumber. Should it be there, in the url, even though it is not used? Should it be used?
-    @POST
-    @Path("/{freezerId}/{shelfNumber}/{freezerItemId}")
-    public Response increaseFreezerItemQuantity(@PathParam("freezerId") String freezerId, @PathParam("shelfNumber") int shelfNumber, @PathParam("freezerItemId") String freezerItemId, int increaseBy) {
+    @PATCH
+    @Path("/{freezerId}")
+    @APIResponse(responseCode = "200", description = "Freezer item updated", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = FreezerWebModel.class)))
+    @APIResponse(responseCode = "404", description = "Freezer does not exist for freezerId", content = @Content(mediaType = MediaType.APPLICATION_JSON))
+    public Response increaseFreezerItemQuantity(@PathParam("freezerId") String freezerId, UpdateFreezerItemQuantityRequest updateFreezerItemQuantityRequest) {
+
+        UUID freezerItemId = updateFreezerItemQuantityRequest.freezerItemId();
+        int quantity = updateFreezerItemQuantityRequest.quantity();
+
+        LOG.info("Increase freezer item quantity requested, freezerItem={} quantity={}", freezerItemId, quantity);
+
+
         try {
-            Freezer freezer = increaseFreezerItemQuantityUseCase.increaseFreezerItemQuantity(freezerId, freezerItemId, increaseBy);
+            Freezer freezer = increaseFreezerItemQuantityUseCase.increaseFreezerItemQuantity(freezerId, updateFreezerItemQuantityRequest
+                    .freezerItemId()
+                    .toString(), quantity);
             FreezerWebModel freezerWebModel = FreezerWebModel.fromDomainModel(freezer);
+
+            LOG.debug("Quantity of freezerItem increased, freezerItemId={}, quantity={}", freezerItemId, freezer.getFreezerItem(new FreezerItemId(freezerItemId)).getQuantity());
+
             return Response
                     .ok(URI.create("/freezers/" + freezer
                             .getFreezerId()
                             .freezerId()))
                     .entity(freezerWebModel)
                     .build();
-        } catch (FreezerDoesNotExistException e) {
+        } catch (FreezerNotFoundException e) {
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
         }
     }

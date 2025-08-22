@@ -52,6 +52,7 @@ public class FreezerItem extends Entity {
         this.quantity = quantity;
     }
 
+    // TODO: Change to custom exception: InvalidFreezerItemQuantityException
     private void validatePositiveInput(int value) {
         if (value < 1) {
             throw new IllegalArgumentException("'value' must be positive, current value: %d".formatted(value));
