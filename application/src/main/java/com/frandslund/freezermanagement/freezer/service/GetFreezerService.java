@@ -7,8 +7,6 @@ import com.frandslund.freezermanagement.model.freezer.FreezerId;
 import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 
-import java.util.NoSuchElementException;
-
 public class GetFreezerService implements GetFreezerUseCase {
 
     private final FreezerRepositoryPort freezerRepositoryPort;
@@ -18,7 +16,7 @@ public class GetFreezerService implements GetFreezerUseCase {
     }
 
     @Override
-    public Freezer getFreezer(FreezerId freezerId) throws NoSuchElementException {
+    public Freezer getFreezer(FreezerId freezerId) {
         return freezerRepositoryPort
                 .findById(freezerId)
                 .orElseThrow(() -> new FreezerNotFoundException(freezerId));

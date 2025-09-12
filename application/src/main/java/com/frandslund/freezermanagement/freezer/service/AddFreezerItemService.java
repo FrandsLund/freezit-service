@@ -10,8 +10,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.NoSuchElementException;
-
 public class AddFreezerItemService implements AddFreezerItemUseCase {
     private final FreezerRepositoryPort freezerRepositoryPort;
     private final DomainEventPublisherPort eventPublisher;
@@ -23,20 +21,21 @@ public class AddFreezerItemService implements AddFreezerItemUseCase {
         this.eventPublisher = eventPublisher;
     }
 
+    // TODO: Some testing has been done here, that shuld be removed
     @Override
     @Transactional
-    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) throws NoSuchElementException {
+    public Freezer addFreezerItemUseCase(FreezerId freezerId, int shelfNumber, String name, int quantity, String description) {
         var freezer = freezerRepositoryPort
                 .findById(freezerId)
                 .orElseThrow(() -> new FreezerNotFoundException(freezerId));
         freezer.addFreezerItem(shelfNumber, quantity, name, description);
-        try{
+        try {
             freezerRepositoryPort.save(freezer);
             freezer
                     .getDomainEvents()
                     .forEach(eventPublisher::publish);
-        }catch (RuntimeException e){
-            LOG.error("TEST LOG",e);
+        } catch (RuntimeException e) {
+            LOG.error("TEST LOG", e);
         }
         return freezer;
     }

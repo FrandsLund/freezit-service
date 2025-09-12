@@ -6,6 +6,7 @@ import com.frandslund.freezermanagement.model.freezer.UserId;
 import com.frandslund.freezermanagement.freezer.port.in.AddFreezerItemUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.CreateFreezerUseCase;
 import com.frandslund.freezermanagement.freezer.port.in.GetFreezerUseCase;
+import com.frandslund.freezermanagement.model.freezer.exception.FreezerNotFoundException;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
@@ -37,7 +38,7 @@ class FreezerResourceTest {
     @Test
     void givenFreezerDoesNoExist_getFreezer_returnsNotFoundError() {
         // Given
-        when(getFreezerUseCase.getFreezer(FREEZER_ID)).thenThrow(NoSuchElementException.class);
+        when(getFreezerUseCase.getFreezer(FREEZER_ID)).thenThrow(FreezerNotFoundException.class);
 
         // When
         Response response = given().get("/freezers/" + FREEZER_ID.freezerId().toString()).then().extract().response();

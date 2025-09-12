@@ -30,7 +30,7 @@ import java.util.UUID;
 
 import static com.frandslund.freezermanagement.adapter.in.rest.common.ControllerCommons.clientErrorException;
 
-// TODO: Add exception mapping
+// TODO: Add exception mapping and catch and log also all unhandled exceptions
 // TODO: Add logging to all endpoints
 
 /**
@@ -63,6 +63,9 @@ public class FreezerResource {
             return FreezerWebModel.fromDomainModel(freezer);
         } catch (FreezerNotFoundException e) {
             throw clientErrorException(Response.Status.NOT_FOUND, e.getMessage());
+        } catch (RuntimeException e) {
+            LOG.error("Unhandled exception occurred", e);
+            throw clientErrorException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
