@@ -3,6 +3,8 @@ package com.frandslund.freezermanagement.model.freezer;
 import com.frandslund.freezermanagement.common.DomainEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerAddedEvent;
 import com.frandslund.freezermanagement.model.freezer.event.FreezerItemAddedEvent;
+import com.frandslund.freezermanagement.model.freezer.exception.InvalidFreezerItemNameException;
+import com.frandslund.freezermanagement.model.freezer.exception.InvalidFreezerItemQuantityException;
 import com.frandslund.freezermanagement.model.freezer.exception.ShelfDoesNotExistException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,8 +32,8 @@ public class FreezerTest {
         assertThat(freezer.getShelves()).hasSize(shelfQuantity);
         assertThat(freezer.getName()).isEqualTo(name);
         assertThat(freezer
-                           .getUserId()
-                           .userId()).isEqualTo(userId);
+                .getUserId()
+                .userId()).isEqualTo(userId);
     }
 
     @Test
@@ -85,14 +87,14 @@ public class FreezerTest {
         assertThat(freezerItem.getFreezerItemId()).isNotNull();
         assertThat(freezerItem.getQuantity()).isEqualTo(quantity);
         assertThat(freezerItem
-                           .getItemData()
-                           .name()).isEqualTo(name);
+                .getItemData()
+                .name()).isEqualTo(name);
         assertThat(freezerItem
-                           .getItemData()
-                           .description()).isEqualTo(description);
+                .getItemData()
+                .description()).isEqualTo(description);
         assertThat(freezerItem
-                           .getItemData()
-                           .dateAdded()).isNotNull();
+                .getItemData()
+                .dateAdded()).isNotNull();
     }
 
 
@@ -107,7 +109,7 @@ public class FreezerTest {
         String description = "Pre cooked";
 
         // When / then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(InvalidFreezerItemQuantityException.class)
                 .isThrownBy(() -> freezer.addFreezerItem(shelfNumber, quantity, name, description))
                 .withMessage("'quantity' must not be negative, current value: %s".formatted(quantity));
     }
@@ -123,7 +125,7 @@ public class FreezerTest {
         String description = "Pre cooked";
 
         // When / then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(InvalidFreezerItemNameException.class)
                 .isThrownBy(() -> freezer.addFreezerItem(shelfNumber, quantity, name, description))
                 .withMessage("'name' cannot be empty");
     }
@@ -147,8 +149,8 @@ public class FreezerTest {
         assertThat(domainEvents).hasSize(2);
         assertThat(domainEvents.get(1)).isInstanceOf(FreezerItemAddedEvent.class);
         assertThat(((FreezerItemAddedEvent) domainEvents.get(1)).freezerItemId()).isEqualTo(freezerItems
-                                                                                                    .get(0)
-                                                                                                    .getFreezerItemId());
+                .get(0)
+                .getFreezerItemId());
     }
 
     @Test
@@ -194,7 +196,7 @@ public class FreezerTest {
         int increaseBy = -1;
 
         // When / then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(InvalidFreezerItemQuantityException.class)
                 .isThrownBy(() -> freezer.increaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), increaseBy))
                 .withMessage("'value' must be positive, current value: %d".formatted(increaseBy));
     }
@@ -225,7 +227,7 @@ public class FreezerTest {
         int decreaseBy = -1;
 
         // When / then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(InvalidFreezerItemQuantityException.class)
                 .isThrownBy(() -> freezer.decreaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), decreaseBy))
                 .withMessage("'value' must be positive, current value: %d".formatted(decreaseBy));
     }
@@ -240,7 +242,7 @@ public class FreezerTest {
         int decreaseBy = 11;
 
         // When / then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(InvalidFreezerItemQuantityException.class)
                 .isThrownBy(() -> freezer.decreaseFreezerItemQuantityBy(freezerItem.getFreezerItemId(), decreaseBy))
                 .withMessage("'quantity' must not be negative, current value: %d".formatted(quantity - decreaseBy));
     }

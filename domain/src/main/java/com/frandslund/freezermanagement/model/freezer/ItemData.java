@@ -1,5 +1,7 @@
 package com.frandslund.freezermanagement.model.freezer;
 
+import com.frandslund.freezermanagement.model.freezer.exception.InvalidFreezerItemNameException;
+
 import java.time.Instant;
 
 
@@ -10,8 +12,8 @@ public record ItemData(String name, String description, Instant dateAdded) {
     public ItemData(String name, String description) {
         this(name, description, Instant.now());
 
-        if (name.equals("")) {
-            throw new IllegalArgumentException("'name' cannot be empty");
+        if (name.isEmpty()) {
+            throw new InvalidFreezerItemNameException("'name' cannot be empty");
         }
     }
 }
