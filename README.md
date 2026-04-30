@@ -1,8 +1,41 @@
 # freezit-service
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+**freezit-service** is a backend REST API service for managing household freezer inventories. It lets users track what food items are stored across one or more freezers, which shelf each item lives on, and how much of each item remains.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## What it does
+
+A user can own one or more **Freezers**. Each Freezer is divided into a configurable number of **Shelves**. Each Shelf holds any number of **Freezer Items** — food products described by a name, an optional description, a date-added timestamp, and a current quantity.
+
+The service exposes the following capabilities via a REST API:
+
+| Operation | Description |
+|-----------|-------------|
+| **Create a freezer** | Create a new named freezer for a user, specifying how many shelves it has |
+| **Get a freezer** | Retrieve a freezer (and all its contents) by its ID, or by user ID + freezer name |
+| **Add an item** | Add a named food item to a specific shelf, including an initial quantity |
+| **Increase quantity** | Increase the stored quantity of an existing item (e.g. after restocking) |
+
+Domain events are emitted for every significant state change (freezer created, item added, quantity increased), making the service event-ready for future integrations.
+
+## Architecture
+
+The project is structured using **Hexagonal Architecture** (Ports & Adapters), split into four Maven modules:
+
+```
+domain/          – Core business entities, value objects, domain events and exceptions
+application/     – Use-case interfaces (inbound ports), outbound ports, and service implementations
+infrastructure/  – REST adapter (inbound), in-memory and JPA/MySQL persistence adapters (outbound)
+bootstrap/       – Quarkus application entry-point and wiring
+```
+
+The domain and application layers have **no framework dependencies**, keeping the business logic clean and independently testable.
+
+## Tech stack
+
+- **Java 21** with [Quarkus 3](https://quarkus.io/) as the runtime framework
+- **Jakarta REST** for the HTTP API
+- **Hibernate ORM / Panache** for JPA persistence
+- **MySQL** (via Docker Compose) for production persistence; an **in-memory** adapter is also provided for tests
 
 ## Running the application in dev mode
 
